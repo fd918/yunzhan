@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>云瞻开放平台与业务体系介绍</title>
+<style>
+  body { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; color:#222; line-height:1.75; max-width:1240px; margin:32px auto 48px; padding:0 32px; background:#fff; }
+  a, button { touch-action:manipulation; }
+  a:focus-visible, button:focus-visible { outline:3px solid rgba(47,104,255,.38); outline-offset:3px; }
+  h1 { color:#173D7A; font-size:32px; text-align:center; margin:14px 0 4px; }
+  .subtitle { text-align:center; color:#2F68FF; font-size:17px; font-weight:700; margin-bottom:6px; }
+  .meta { text-align:center; color:#777; font-size:13px; margin-bottom:24px; }
+  h2 { color:#173D7A; font-size:23px; border-bottom:3px solid #2F68FF; padding-bottom:6px; margin-top:34px; }
+  h3 { color:#173D7A; font-size:18px; margin-top:24px; margin-bottom:8px; }
+  h4 { color:#222; font-size:16px; margin-top:18px; margin-bottom:6px; }
+  p { margin:7px 0; }
+  ul { margin:7px 0 12px 22px; }
+  li { margin:4px 0; }
+  .callout { background:#EEF4FF; border:1px solid #D9E2F2; border-left:6px solid #2F68FF; border-radius:7px; padding:14px 17px; margin:16px 0; }
+  .callout.green { background:#ECF8F2; }
+  .callout.orange { background:#FFF6E8; }
+  .callout.red { background:#FFF0F0; border-left-color:#C43D3D; }
+  .callout strong { color:#173D7A; }
+  table { border-collapse:collapse; width:100%; margin:14px 0 22px; font-size:14.5px; }
+  th { background:#2F68FF; color:white; padding:10px 12px; border:1px solid #d9e2f2; text-align:left; }
+  td { padding:10px 12px; border:1px solid #d9e2f2; vertical-align:top; }
+  tr:nth-child(even) td { background:#F7F9FC; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+  .card { border:1px solid #D9E2F2; background:#F7F9FC; border-radius:7px; padding:12px 14px; }
+  .card b { color:#173D7A; display:block; margin-bottom:4px; }
+  .footer { text-align:center; color:#777; margin-top:38px; padding-top:16px; border-top:1px solid #e5e7eb; font-size:13px; }
+
+  html { scroll-behavior:smooth; scroll-padding-top:92px; }
+  .toc-wrap { position:sticky; top:0; z-index:20; margin:18px -32px 24px; padding:10px 32px; background:rgba(255,255,255,.96); backdrop-filter:blur(10px); border-top:1px solid #E6ECF5; border-bottom:1px solid #D9E2F2; box-shadow:0 6px 18px rgba(23,61,122,.06); }
+  .toc-title { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; color:#173D7A; font-size:14px; font-weight:700; }
+  .toc-tip { color:#7B8798; font-size:12px; font-weight:400; }
+  .toc-nav { display:flex; gap:8px; overflow-x:auto; scrollbar-width:thin; padding-bottom:2px; }
+  .toc-nav a { flex:0 0 auto; color:#42526A; background:#F4F7FC; border:1px solid #E0E7F2; border-radius:999px; padding:6px 11px; font-size:13px; line-height:1.25; text-decoration:none; transition:.18s ease; }
+  .toc-nav a:hover { color:#2F68FF; border-color:#AFC4FF; background:#EEF4FF; }
+  .toc-nav a.active { color:#fff; border-color:#2F68FF; background:#2F68FF; box-shadow:0 4px 10px rgba(47,104,255,.18); }
+  .section-anchor { scroll-margin-top:92px; }
+  .back-top { position:fixed; right:22px; bottom:22px; z-index:20; width:44px; height:44px; border:0; border-radius:50%; background:#173D7A; color:#fff; font-size:18px; cursor:pointer; box-shadow:0 8px 22px rgba(23,61,122,.24); opacity:0; visibility:hidden; transform:translateY(8px); transition:.2s ease; }
+  .back-top.show { opacity:1; visibility:visible; transform:translateY(0); }
+  .fee-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+  .fee-box { border:1px solid #D9E2F2; border-radius:8px; padding:14px 16px; background:#fff; }
+  .fee-box h4 { margin:0 0 8px; color:#173D7A; }
+  .fee-box .rate { color:#2F68FF; font-size:20px; font-weight:700; }
+  @media (max-width:720px) {
+    body { margin:20px auto; padding:0 16px; }
+    h1 { font-size:27px; }
+    .cards, .fee-grid { grid-template-columns:1fr; }
+    .toc-wrap { margin:16px -16px 22px; padding:9px 16px; }
+    .toc-title { margin-bottom:6px; }
+    .toc-tip { display:none; }
+    .back-top { right:14px; bottom:14px; }
+    table { display:block; overflow-x:auto; white-space:normal; }
+  }
+
+
+  /* 轻量导航：仅点击时平滑滚动，普通上下滚动不触发额外动画 */
+  html { scroll-behavior:auto; scroll-padding-top:82px; }
+  .section-anchor { scroll-margin-top:82px; }
+  .site-nav { position:sticky; top:0; z-index:20; margin:18px -32px 24px; background:#fff; border-top:1px solid #E6ECF5; border-bottom:1px solid #D9E2F2; box-shadow:0 4px 12px rgba(23,61,122,.05); }
+  .site-nav-inner { min-height:58px; padding:0 32px; display:flex; align-items:center; gap:18px; }
+  .site-nav-brand { flex:0 0 auto; color:#173D7A; font-weight:800; font-size:14px; text-decoration:none; white-space:nowrap; }
+  .primary-nav { display:flex; align-items:center; gap:4px; min-width:0; flex:1; }
+  .primary-nav a { position:relative; color:#536176; text-decoration:none; font-size:13px; font-weight:600; padding:19px 9px 17px; white-space:nowrap; }
+  .primary-nav a::after { content:""; position:absolute; left:9px; right:9px; bottom:0; height:3px; border-radius:3px 3px 0 0; background:#2F68FF; transform:scaleX(0); transition:transform .15s ease; }
+  .primary-nav a:hover { color:#2F68FF; }
+  .primary-nav a.active { color:#173D7A; }
+  .primary-nav a.active::after { transform:scaleX(1); }
+  .directory-toggle { flex:0 0 auto; border:1px solid #D9E2F2; color:#173D7A; background:#F7F9FC; border-radius:7px; padding:7px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+  .directory-toggle:hover { color:#2F68FF; border-color:#AFC4FF; background:#EEF4FF; }
+  .directory-panel { border-top:1px solid #E6ECF5; padding:14px 28px 18px; background:#fff; }
+  .directory-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  .directory-grid a { display:flex; align-items:center; gap:8px; min-width:0; color:#42526A; background:#F7F9FC; border:1px solid #E6ECF5; border-radius:7px; padding:8px 10px; font-size:13px; text-decoration:none; }
+  .directory-grid a span { color:#8B97A8; font-size:11px; font-variant-numeric:tabular-nums; }
+  .directory-grid a:hover { color:#2F68FF; background:#EEF4FF; border-color:#B9CBFF; }
+  @media (max-width:900px) {
+    .primary-nav a { padding-left:6px; padding-right:6px; font-size:12px; }
+    .directory-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  }
+  @media (max-width:720px) {
+    .site-nav { margin:16px -16px 22px; }
+    .site-nav-inner { min-height:52px; padding:0 16px; }
+    .primary-nav { display:none; }
+    .site-nav-brand { flex:1; }
+    .directory-panel { padding:12px 16px 16px; max-height:66vh; overflow:auto; }
+    .directory-grid { grid-template-columns:1fr 1fr; }
+    .directory-grid a { padding:9px 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; }
+  }
+
+.directory-panel[hidden] { display:none; }
+
+
+  /* 左侧目录：非阻塞式展开，正文与目录可同时保持可操作 */
+  html { scrollbar-gutter:stable; }
+  .directory-toggle { display:inline-flex; align-items:center; gap:7px; transition:background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease; }
+  .directory-toggle[aria-expanded="true"] { color:#fff; background:#173D7A; border-color:#173D7A; box-shadow:0 5px 14px rgba(23,61,122,.16); }
+  .directory-toggle-icon { width:15px; height:13px; display:inline-flex; flex-direction:column; justify-content:space-between; }
+  .directory-toggle-icon i { display:block; width:100%; height:1.5px; border-radius:2px; background:currentColor; transition:transform .18s ease, opacity .18s ease; }
+  .directory-toggle[aria-expanded="true"] .directory-toggle-icon i:nth-child(1) { transform:translateY(5.75px) rotate(45deg); }
+  .directory-toggle[aria-expanded="true"] .directory-toggle-icon i:nth-child(2) { opacity:0; }
+  .directory-toggle[aria-expanded="true"] .directory-toggle-icon i:nth-child(3) { transform:translateY(-5.75px) rotate(-45deg); }
+  .directory-drawer { position:fixed; inset:0 auto 0 0; z-index:30; width:min(342px,88vw); background:#fff; border-right:1px solid #DCE5F1; box-shadow:18px 0 46px rgba(23,61,122,.16); transform:translateX(calc(-100% - 24px)); transition:transform .24s cubic-bezier(.2,.75,.2,1); display:flex; flex-direction:column; overflow:hidden; border-radius:0 18px 18px 0; }
+  .directory-drawer.open { transform:translateX(0); }
+  .drawer-header { flex:0 0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:24px 22px 19px; background:linear-gradient(145deg,#F7FAFF 0%,#EEF4FF 100%); border-bottom:1px solid #DCE5F1; }
+  .drawer-kicker { color:#2F68FF; font-size:10px; font-weight:800; letter-spacing:.13em; margin-bottom:5px; }
+  .drawer-header h2 { margin:0; padding:0; border:0; color:#173D7A; font-size:22px; line-height:1.3; }
+  .drawer-header p { margin:5px 0 0; color:#75839A; font-size:12px; line-height:1.5; }
+  .drawer-close { flex:0 0 auto; width:44px; height:44px; display:grid; place-items:center; border:1px solid #D6E0EE; border-radius:10px; color:#60718A; background:rgba(255,255,255,.88); font:400 24px/1 Arial,sans-serif; cursor:pointer; transition:.16s ease; }
+  .drawer-close:hover { color:#173D7A; border-color:#AFC4E6; background:#fff; transform:rotate(4deg); }
+  .drawer-body { flex:1 1 auto; overflow-y:auto; overscroll-behavior-y:auto; padding:14px 14px 18px; scrollbar-width:thin; scrollbar-color:#C9D5E6 transparent; }
+  .drawer-group { padding:5px 0 11px; }
+  .drawer-group + .drawer-group { border-top:1px solid #EDF1F7; padding-top:14px; }
+  .drawer-group-title { display:flex; align-items:center; gap:8px; padding:0 8px 7px; color:#7A8799; font-size:11px; font-weight:800; letter-spacing:.04em; }
+  .drawer-group-title span { display:inline-grid; place-items:center; width:24px; height:19px; color:#2F68FF; background:#EEF4FF; border-radius:5px; font-size:10px; letter-spacing:0; }
+  .drawer-group a { position:relative; display:flex; align-items:center; gap:11px; padding:9px 10px; margin:2px 0; color:#37455A; text-decoration:none; border:1px solid transparent; border-radius:10px; transition:background .14s ease, border-color .14s ease, color .14s ease, transform .14s ease; }
+  .drawer-group a:hover { color:#173D7A; background:#F6F9FE; border-color:#E1E8F3; transform:translateX(2px); }
+  .drawer-group a.active { color:#173D7A; background:#EEF4FF; border-color:#CAD9F3; }
+  .drawer-group a.active::before { content:""; position:absolute; left:-1px; top:9px; bottom:9px; width:3px; border-radius:0 3px 3px 0; background:#2F68FF; }
+  .drawer-index { flex:0 0 28px; color:#93A0B2; font-size:11px; font-weight:700; font-variant-numeric:tabular-nums; text-align:center; }
+  .drawer-group a.active .drawer-index { color:#2F68FF; }
+  .drawer-copy { min-width:0; display:block; }
+  .drawer-copy b { display:block; color:inherit; font-size:13px; line-height:1.35; }
+  .drawer-copy small { display:block; margin-top:2px; color:#8A96A8; font-size:10.5px; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .drawer-footer { flex:0 0 auto; padding:12px 18px 14px; color:#9AA5B5; background:#FAFBFD; border-top:1px solid #EDF1F7; text-align:center; font-size:10.5px; }
+  body.drawer-open { overflow:visible; }
+  @media (max-width:720px) {
+    .directory-drawer { width:min(326px,91vw); border-radius:0 16px 16px 0; }
+    .drawer-header { padding:20px 17px 16px; }
+    .drawer-body { padding:11px 10px 15px; }
+    .drawer-copy small { white-space:normal; }
+  }
+
+</style>
+</head>
+<body>
+<h1>云瞻开放平台与业务体系介绍</h1>
+<div class="subtitle">内部学习与业务认知统一资料</div>
+<div class="meta">适用于：新员工培训｜跨部门业务学习｜商务合作准备｜平台知识沉淀</div>
+<div class="callout"><strong>文档定位</strong><br/>本资料用于帮助内部人员系统理解云瞻开放平台的业务模式、用户价值、上游合作逻辑、平台盈利方式、B端收益来源和长期竞争力。涉及版本价格、服务费比例、经营数据和具体业务名单的内容，属于阶段性内部口径；如需对外发布，应再次核对并完成授权审批。</div>
+<header class="site-nav" id="siteNav">
+<div class="site-nav-inner">
+<a class="site-nav-brand" data-target="overview" href="#overview">云瞻业务体系</a>
+<nav aria-label="主要章节导航" class="primary-nav">
+<a data-group="overview" data-target="overview" href="#overview">快速理解</a>
+<a data-group="platform-overview" data-target="platform-overview" href="#platform-overview">平台与用户</a>
+<a data-group="business-source" data-target="business-source" href="#business-source">业务与收益</a>
+<a data-group="upstream-cooperation" data-target="upstream-cooperation" href="#upstream-cooperation">合作与优势</a>
+<a data-group="business-scale" data-target="business-scale" href="#business-scale">经营与定位</a>
+<a data-group="learning-points" data-target="learning-points" href="#learning-points">内部学习</a>
+</nav>
+<button aria-controls="directoryDrawer" aria-expanded="false" aria-label="打开完整目录" class="directory-toggle" type="button"><span class="directory-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>目录</span></button>
+</div>
+</header>
+<aside aria-hidden="true" aria-label="完整目录" class="directory-drawer" id="directoryDrawer">
+  <div class="drawer-header">
+    <div>
+      <div class="drawer-kicker">CONTENT DIRECTORY</div>
+      <h2>完整目录</h2>
+      <p>选择章节后，页面将自动定位</p>
+    </div>
+    <button aria-label="收起目录" class="drawer-close" type="button">×</button>
+  </div>
+  <div class="drawer-body">
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>01</span>快速理解</div>
+      <a data-target="overview" href="#overview"><span class="drawer-index">00</span><span class="drawer-copy"><b>快速理解云瞻</b><small>平台、用户、收入与竞争力概览</small></span></a>
+    </section>
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>02</span>平台与用户</div>
+      <a data-target="platform-overview" href="#platform-overview"><span class="drawer-index">01</span><span class="drawer-copy"><b>平台概述</b><small>平台定位与产业链角色</small></span></a>
+      <a data-target="core-users" href="#core-users"><span class="drawer-index">02</span><span class="drawer-copy"><b>核心用户</b><small>B端类型与核心痛点</small></span></a>
+      <a data-target="b-value" href="#b-value"><span class="drawer-index">03</span><span class="drawer-copy"><b>B端价值</b><small>业务、技术、数据与运营价值</small></span></a>
+    </section>
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>03</span>业务与收益</div>
+      <a data-target="business-source" href="#business-source"><span class="drawer-index">04</span><span class="drawer-copy"><b>业务来源</b><small>官方、服务商与生态合作</small></span></a>
+      <a data-target="business-process" href="#business-process"><span class="drawer-index">05</span><span class="drawer-copy"><b>业务流程</b><small>从接入到运营及结算</small></span></a>
+      <a data-target="platform-revenue" href="#platform-revenue"><span class="drawer-index">06</span><span class="drawer-copy"><b>平台收入</b><small>服务费、激励、定制与培训</small></span></a>
+      <a data-target="b-revenue" href="#b-revenue"><span class="drawer-index">07</span><span class="drawer-copy"><b>B端收入</b><small>佣金、激励与长期用户价值</small></span></a>
+    </section>
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>04</span>合作与优势</div>
+      <a data-target="upstream-cooperation" href="#upstream-cooperation"><span class="drawer-index">08</span><span class="drawer-copy"><b>上游合作</b><small>上游选择云瞻的原因</small></span></a>
+      <a data-target="advantages" href="#advantages"><span class="drawer-index">09</span><span class="drawer-copy"><b>平台优势</b><small>当前优势与长期护城河</small></span></a>
+    </section>
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>05</span>经营与定位</div>
+      <a data-target="business-scale" href="#business-scale"><span class="drawer-index">10</span><span class="drawer-copy"><b>经营规模</b><small>阶段性数据与核心指标</small></span></a>
+      <a data-target="business-logic" href="#business-logic"><span class="drawer-index">11</span><span class="drawer-copy"><b>经营逻辑</b><small>五类增长与利润循环</small></span></a>
+      <a data-target="value-summary" href="#value-summary"><span class="drawer-index">12</span><span class="drawer-copy"><b>价值总结</b><small>对B端、上游与消费者的价值</small></span></a>
+      <a data-target="positioning" href="#positioning"><span class="drawer-index">13</span><span class="drawer-copy"><b>平台定位</b><small>对内与对外统一表述</small></span></a>
+      <a data-target="mission-vision" href="#mission-vision"><span class="drawer-index">14</span><span class="drawer-copy"><b>使命愿景</b><small>平台愿景与经营主张</small></span></a>
+    </section>
+    <section class="drawer-group">
+      <div class="drawer-group-title"><span>06</span>内部学习</div>
+      <a data-target="learning-points" href="#learning-points"><span class="drawer-index">15</span><span class="drawer-copy"><b>学习重点</b><small>内部人员必须形成的统一认识</small></span></a>
+      <a data-target="terms" href="#terms"><span class="drawer-index">16</span><span class="drawer-copy"><b>术语说明</b><small>常用业务术语及内部口径</small></span></a>
+    </section>
+  </div>
+  <div class="drawer-footer">云瞻开放平台 · 内部业务认知资料</div>
+</aside>
+<h2 class="section-anchor" id="overview">快速理解云瞻</h2>
+<table><tr><th>关键问题</th><th>统一认识</th></tr>
+<tr><td><b>云瞻是什么</b></td><td>连接上游消费业务与B端渠道的一站式业务聚合、技术接入、数据结算和运营服务平台。</td></tr>
+<tr><td><b>主要服务谁</b></td><td>拥有流量、用户、社群、渠道、内容或产品能力的B端用户。</td></tr>
+<tr><td><b>平台做什么</b></td><td>引入业务、完成技术接入、配置上线、渠道分发、订单归因、佣金核算、统一结算和运营增长。</td></tr>
+<tr><td><b>平台赚什么</b></td><td>版本及企业服务收入、日结/月结交易服务费、上游规模激励、定制开发、API接入、培训陪跑及其他增值服务收入。</td></tr>
+<tr><td><b>B端赚什么</b></td><td>基础佣金、活动激励、增量奖励以及多业务经营形成的长期用户价值。</td></tr>
+<tr><td><b>上游为什么合作</b></td><td>通过云瞻更低成本地触达和管理大量渠道，获得订单、GMV、新用户、复购和业务增量。</td></tr>
+<tr><td><b>真正的竞争力</b></td><td>高质量活跃B端网络、稳定订单规模、上游政策能力、数据运营、标准化服务和技术开放能力。</td></tr></table>
+<h2 class="section-anchor" id="platform-overview">一、平台概述</h2>
+<h3>1. 云瞻开放平台是什么</h3>
+<p>云瞻开放平台是一个面向推广者、渠道团队、流量平台、企业客户和生态合作伙伴的综合业务聚合与运营服务平台。平台以CPS成交分佣业务为核心，同时根据具体项目承接CPA拉新、推广投放、联合运营等合作。</p>
+<div class="callout green"><strong>核心定义</strong><br/>云瞻以CPS成交分佣为核心，聚合本地生活、电商、出行、文旅、票务、快递等消费业务，为B端渠道提供业务、系统、数据、结算、运营和服务能力。</div>
+<h3>2. 平台连接的三类核心角色</h3>
+<table><tr><th>角色</th><th>主要特征</th><th>在业务链路中的作用</th></tr>
+<tr><td><b>上游业务方</b></td><td>大型平台、品牌方、项目方、服务商及渠道合作方</td><td>提供商品或服务、优惠权益、推广政策、佣金、活动激励及订单数据。</td></tr>
+<tr><td><b>B端用户</b></td><td>拥有流量、用户、社群、内容渠道、线下场景或技术产品</td><td>将业务推广给消费者，通过有效订单获得佣金和活动收益。</td></tr>
+<tr><td><b>C端消费者</b></td><td>最终购买商品或使用服务的个人用户</td><td>通过B端入口领取优惠、完成下单并形成真实交易。</td></tr></table>
+<h3>3. 云瞻不只是“提供链接”</h3>
+<p>云瞻不是单纯的返佣工具，也不是只提供推广链接的平台。平台承担一项业务从引入、接入、上线到推广、结算和持续运营的完整链路。</p>
+<div class="cards">
+<div class="card"><b>业务引入</b>寻找并筛选可合作上游，判断业务模式、佣金、结算、风险和市场价值。</div>
+<div class="card"><b>技术接入</b>完成API、链接、推广位、用户授权、订单、退款和佣金数据接入。</div>
+<div class="card"><b>业务配置</b>完成业务上线、下架、佣金配置、活动说明和推广入口配置。</div>
+<div class="card"><b>政策运营</b>整理上游政策、活动门槛、推广要求和风险规则，并向渠道传达。</div>
+<div class="card"><b>渠道分发</b>将业务匹配并开放给适合的B端用户、团队和企业客户。</div>
+<div class="card"><b>订单归因</b>识别订单来源、推广用户和推广位，保证数据归属清晰。</div>
+<div class="card"><b>佣金与激励核算</b>按照上游政策、订单状态和平台规则计算B端收益。</div>
+<div class="card"><b>结算与服务</b>完成上游对账、平台核算、B端结算及业务问题处理。</div>
+<div class="card"><b>数据分析</b>分析订单、GMV、活跃、流失、转化、复购和业务增长情况。</div>
+<div class="card"><b>运营支持</b>通过活动、培训、激励、用户分层和流失召回推动订单增长。</div>
+</div>
+<h3>4. 平台在产业链中的位置</h3>
+<table><tr><th>环节</th><th>核心输入或动作</th><th>核心输出</th></tr>
+<tr><td><b>上游平台或品牌方</b></td><td>提供业务、优惠政策、佣金、激励、数据和结算能力</td><td>可推广的商品、服务和增长目标</td></tr>
+<tr><td><b>云瞻开放平台</b></td><td>完成聚合、接入、运营、归因、核算、服务和统一结算</td><td>标准化业务能力和可管理的渠道网络</td></tr>
+<tr><td><b>B端推广者及渠道</b></td><td>通过社群、公众号、小程序、APP、网站、内容平台或API推广</td><td>有效流量、用户触达和订单</td></tr>
+<tr><td><b>C端消费者</b></td><td>领取优惠、购买商品或使用服务</td><td>真实交易、复购和消费数据</td></tr></table>
+<div class="callout orange"><strong>完整收益链路</strong><br/>C端消费者通过B端推广入口完成消费 → 上游识别有效订单 → 上游向云瞻结算佣金和激励 → 云瞻按照平台规则核算B端收益 → 云瞻向B端完成结算。</div>
+<h2 class="section-anchor" id="core-users">二、平台的核心用户</h2>
+<h3>1. 平台主要服务B端用户</h3>
+<p>云瞻的主要服务对象不是普通消费者，而是拥有流量、渠道、用户、产品或推广能力的B端用户。C端消费者是交易参与者，B端用户则是平台长期运营和服务的核心对象。</p>
+<h3>2. B端用户主要类型</h3>
+<table><tr><th>用户类型</th><th>典型资源</th><th>主要需求</th></tr>
+<tr><td><b>个人推广者</b></td><td>朋友圈、微信群、公众号、小红书、抖音、视频号等</td><td>获得简单易用的推广入口和稳定佣金。</td></tr>
+<tr><td><b>私域及社群运营者</b></td><td>宝妈群、校园群、社区群、优惠群、粉丝群或行业社群</td><td>持续提供高频消费权益，提高社群活跃和变现能力。</td></tr>
+<tr><td><b>内容创作者和自媒体</b></td><td>图文、短视频、直播、测评和优惠攻略内容</td><td>将内容流量转化为订单和佣金。</td></tr>
+<tr><td><b>推广团队和工作室</b></td><td>多名推广人员、代理或渠道成员</td><td>统一管理业务、推广位、订单、团队和收益。</td></tr>
+<tr><td><b>本地生活服务商</b></td><td>区域商户、消费者和线下场景</td><td>接入外卖、闪购、电影票、团购和出行等业务。</td></tr>
+<tr><td><b>网站、小程序和APP运营方</b></td><td>已有产品、用户和技术能力</td><td>通过API、H5或小程序接入业务，增加产品收入。</td></tr>
+<tr><td><b>企业和机构客户</b></td><td>员工、会员、客户及合作渠道</td><td>用于员工福利、会员权益、客户增值服务和营销活动。</td></tr>
+<tr><td><b>平台及生态合作方</b></td><td>流量平台、工具平台、SaaS平台和行业渠道</td><td>通过业务互补、资源共享和联合运营形成合作。</td></tr></table>
+<h3>3. B端用户的核心痛点</h3>
+<div class="cards">
+<div class="card"><b>业务获取困难</b>不知道有哪些业务可以推广，也难以判断上游是否可靠。</div>
+<div class="card"><b>上游对接成本高</b>需要分别联系、谈判、签约、接入和对账多个上游。</div>
+<div class="card"><b>订单规模不足</b>单个渠道体量有限，难以获得更高佣金和专项政策。</div>
+<div class="card"><b>技术能力不足</b>无法独立完成API、小程序、订单、佣金和结算系统开发。</div>
+<div class="card"><b>规则理解困难</b>佣金、有效订单、活动门槛、退款和结算规则复杂。</div>
+<div class="card"><b>数据和结算分散</b>需要登录多个后台、手工汇总订单并分别核对结算。</div>
+<div class="card"><b>业务变化频繁</b>活动、佣金、库存、上下架和风控要求经常变化。</div>
+<div class="card"><b>缺少运营支持</b>有流量但缺乏素材、培训、案例、用户分层和增量方法。</div>
+<div class="card"><b>售后处理困难</b>出现漏单、退款、佣金和结算异常时缺少统一处理入口。</div>
+<div class="card"><b>业务结构单一</b>过度依赖单项业务，用户消费场景和长期价值不足。</div>
+</div>
+<h2 class="section-anchor" id="b-value">三、云瞻对B端用户的价值</h2>
+<h3>1. 降低业务获取门槛</h3><p>云瞻聚合大量B端形成统一渠道规模，再集中与上游合作。B端无需逐一寻找、接入和谈判，即可使用平台已经接入的多个业务。</p>
+<h3>2. 提供一站式业务聚合</h3><p>一个平台覆盖外卖、闪购、本地生活、电商、出行、文旅、票务、快递等消费场景，降低对单一业务的依赖。</p>
+<h3>3. 降低技术接入成本</h3><p>平台将链接转换、授权、订单归因、佣金计算、退款、结算、API、小程序和数据报表等能力平台化。</p>
+<h3>4. 提供统一数据能力</h3><p>B端可集中查看推广订单、有效订单、退款、预估佣金、已结算佣金、活动激励、推广位和业务收益。</p>
+<h3>5. 提供统一结算能力</h3><p>平台统一处理不同上游的订单状态、佣金规则、退款数据、结算周期和活动激励，降低分别对账成本。</p>
+<h3>6. 提供运营支持</h3><p>提供政策解读、业务通知、活动规则、素材文案、培训课程、异常处理、数据分析、用户召回和增量方案。</p>
+<h3>7. 提高收益上限</h3><p>通过增加业务数量、争取佣金政策、组织活动激励、提升复购和降低经营成本，提高B端整体收入。</p>
+<h3>8. 降低资金和账期压力</h3><p>部分业务可提供日结或提前结算服务，由平台承担一定的资金周转和账期管理压力。</p>
+<h3>9. 建立可持续经营模式</h3><p>帮助B端逐步建立稳定获客、业务矩阵、内容触达、用户分层、数据分析和团队管理能力。</p>
+<div class="callout green"><strong>B端收益的核心公式</strong><br/>可推广业务数量 × 有效用户规模 × 推广转化率 × 单均佣金 × 用户复购频率 × 活动激励 − 技术、运营、资金和结算成本。云瞻的作用，是提高前六项，并降低后四类成本。</div>
+<h2 class="section-anchor" id="business-source">四、平台业务的来源</h2>
+<table><tr><th>业务来源</th><th>主要方式</th><th>云瞻重点评估内容</th></tr>
+<tr><td><b>官方平台及开放联盟</b></td><td>联盟、开放平台、服务商体系和渠道合作</td><td>推广接口、订单数据、基础佣金、活动政策、激励和结算能力。</td></tr>
+<tr><td><b>上游服务商和渠道方</b></td><td>授权服务商、代理商及资源渠道</td><td>业务资质、合作链路、数据稳定性、佣金、账期、技术、风险和售后。</td></tr>
+<tr><td><b>品牌方和项目方直连</b></td><td>品牌、商户或项目方直接寻求新增用户和销售增长</td><td>业务价值、目标人群、结算方式、推广限制和交付责任。</td></tr>
+<tr><td><b>行业及跨行业生态合作</b></td><td>其他推广平台、SaaS、私域团队、福利平台、媒体及线下机构</td><td>资源互补、联合推广、业务互换和共同完成目标的可行性。</td></tr></table>
+<h3>当前主要业务方向</h3>
+<ul><li>美团相关外卖、闪购及本地生活业务。</li><li>饿了么及淘宝闪购相关业务。</li><li>京东相关消费及推广业务。</li><li>滴滴等出行服务业务。</li><li>携程、飞猪等文旅业务。</li><li>霸王餐、试吃及到店体验业务。</li><li>快递寄件业务。</li><li>电影票和娱乐票务业务。</li><li>其他电商、消费权益及互联网推广业务。</li></ul>
+<div class="callout orange"><strong>业务清单使用说明</strong><br/>具体业务清单会随着上游政策、合作状态和市场情况持续变化。任何对内或对外材料，都应注明数据和业务清单的更新时间。</div>
+<h2 class="section-anchor" id="business-process">五、一项业务从接入到运营的完整过程</h2>
+<table><tr><th>阶段</th><th>关键工作</th><th>主要验收结果</th></tr>
+<tr><td><b>1. 商务接触和判断</b></td><td>确认合作模式、业务主体、用户场景、佣金、归因、技术、退款、结算、风控和售后责任。</td><td>业务真实可靠，合作价值和风险边界清晰。</td></tr>
+<tr><td><b>2. 商务谈判和签约</b></td><td>争取基础佣金、阶梯政策、增量奖励、推广预算、测试资源、账期和技术支持。</td><td>形成可执行的合同、政策和交付约定。</td></tr>
+<tr><td><b>3. 技术接入</b></td><td>完成API、链接、推广位、授权、小程序/H5、订单、佣金、退款、回传和异常监测。</td><td>链路稳定、数据可追踪、订单可归因。</td></tr>
+<tr><td><b>4. 配置和上线验收</b></td><td>核对取链、跳转、优惠、佣金、退款、活动说明、库存、结算和通知。</td><td>上下游口径一致，业务可以稳定推广。</td></tr>
+<tr><td><b>5. B端推广和运营</b></td><td>同步卖点、适合用户、入口、佣金、活动、限制、素材、FAQ和风险提示。</td><td>B端理解业务并形成推广动作。</td></tr>
+<tr><td><b>6. 数据监测和异常处理</b></td><td>监测订单、GMV、有效率、退款、复购、推广位、用户增减、活动达成和接口异常。</td><td>异常及时发现并跨部门闭环。</td></tr>
+<tr><td><b>7. 佣金和激励结算</b></td><td>完成上游对账、无效订单剔除、激励核算、用户贡献拆分、对外结算和利润复盘。</td><td>结算准确、可追溯，业务最终产生合理利润。</td></tr></table>
+<h2 class="section-anchor" id="platform-revenue">六、云瞻平台赚什么钱</h2>
+<p>云瞻的收入并非只来自平台版本或订单抽成，而是由交易服务、上游规模收益、技术与定制服务、培训陪跑等多类收入共同构成。不同业务的服务费规则，需要区分日结和月结口径。</p>
+<table><tr><th>收入类型</th><th>收入逻辑</th><th>典型内容</th></tr>
+<tr><td><b>用户付费收入</b></td><td>B端购买平台版本、企业能力或升级服务</td><td>标准版、旗舰版/企业版、高级专享服务及其他企业服务。</td></tr>
+<tr><td><b>交易服务费</b></td><td>根据业务采用日结还是月结，以及用户版本，按照上游结算佣金的一定比例收取服务费</td><td>日结业务和月结业务分别执行不同服务费标准。</td></tr>
+<tr><td><b>上游佣金及规模激励</b></td><td>完成订单、GMV、用户质量、复购、有效率或增量目标后获得额外收益</td><td>阶梯佣金、月度/季度激励、年框奖励、增量奖励、预算和补贴。</td></tr>
+<tr><td><b>大客户定制收入</b></td><td>针对大客户的特殊业务流程、系统功能、页面、数据或结算需求提供定制服务</td><td>功能定制、页面定制、数据定制、结算方案定制和专项项目开发。</td></tr>
+<tr><td><b>API接入收入</b></td><td>向具备网站、小程序、APP或SaaS产品的客户提供API业务接入及技术服务</td><td>API套餐、接口配置、技术支持和接入服务，按套餐和范围收费。</td></tr>
+<tr><td><b>培训及陪跑收入</b></td><td>围绕业务入门、推广实操、团队运营和持续增长提供培训与陪跑服务</td><td>新人打卡训练营、专项培训、实战课程、顾问和陪跑服务。</td></tr>
+<tr><td><b>其他增值服务收入</b></td><td>围绕技术、数据、系统和运营提供额外服务</td><td>专属服务、联合运营、投放执行、数据服务和其他专项服务。</td></tr></table>
+<h3>1. 用户付费收入</h3>
+<p>B端可以通过购买标准版、旗舰版或企业版等平台版本，获得相应的平台功能、服务权益和交易服务费政策。大客户及特殊合作客户可根据实际需求配置专属服务方案。</p>
+<div class="callout red"><strong>当前内部版本价格口径</strong><br/>标准版2999元；旗舰版或企业版4999元。具体销售价格、促销政策及特殊客户价格，以当期正式销售政策和合同为准。</div>
+<h3>2. 交易服务费：必须区分日结和月结</h3>
+<div class="fee-grid">
+<div class="fee-box"><h4>日结业务</h4><div class="rate">标准版5%｜旗舰版/企业版3%</div><p>平台在上游正式回款前，按照规则提前向B端结算收益，因此需要承担资金占用、账期和异常订单风险。</p></div>
+<div class="fee-box"><h4>月结业务</h4><div class="rate">标准版10%｜旗舰版/企业版0%</div><p>业务按照上游正式结算周期向B端结算。旗舰版和企业版在月结业务中不收取交易服务费。</p></div>
+</div>
+<div class="callout orange"><strong>服务费计算口径</strong><br/>交易服务费是按照上游向云瞻结算的佣金计算，不是按照订单GMV或消费者实际支付金额计算。大客户、特殊业务和特殊合作，以双方合同约定为准。</div>
+<h4>日结业务示例</h4><p>某笔订单上游结算佣金为10元：标准版按5%收取0.5元，B端获得9.5元；旗舰版或企业版按3%收取0.3元，B端获得9.7元。</p>
+<h4>月结业务示例</h4><p>某笔订单上游结算佣金为10元：标准版按10%收取1元，B端获得9元；旗舰版或企业版不收取交易服务费，B端获得10元。</p>
+<h3>3. 上游佣金及规模激励</h3>
+<p>除基础业务佣金外，上游可能根据订单量、GMV、用户质量、复购率、有效率或增量目标，向云瞻提供阶梯佣金、月度或季度激励、年框奖励、增量奖励、专项预算和推广补贴。云瞻通过组织渠道、设计活动和推动用户增长完成目标，并获得相应收益。</p>
+<h3>4. 大客户定制费用</h3>
+<p>部分大客户在业务流程、系统功能、活动页面、数据字段、结算方式、权限体系或运营服务方面存在个性化需求。对于超出标准产品范围的需求，云瞻可评估开发和交付成本，按照具体项目收取定制费用。</p>
+<ul><li>系统功能及业务流程定制。</li><li>专题页面、小程序页面或活动入口定制。</li><li>订单、佣金、推广位和数据报表定制。</li><li>专属结算、权限、团队或渠道管理方案。</li><li>专项运营、技术支持及项目交付服务。</li></ul>
+<h3>5. API接入费用</h3>
+<p>针对拥有网站、小程序、APP或SaaS产品的客户，云瞻可以提供业务API接入、接口配置和技术支持服务。</p>
+<div class="callout"><strong>当前内部API套餐口径</strong><br/>API接入套餐根据接入业务、接口范围和服务内容，价格约为2000—5000元不等。特殊接口、深度定制和长期技术服务另行评估报价。</div>
+<h3>6. 培训、课程及陪跑费用</h3>
+<p>平台通过标准化培训帮助新人理解业务、完成首次推广并逐步形成持续经营能力，同时也可以围绕具体业务、推广方法和团队运营提供专项服务。</p>
+<ul><li><b>新人打卡训练营：</b>长期开展，99元/期。</li><li><b>不定期专项培训：</b>围绕新业务、内容推广、私域运营、团队管理等主题开展。</li><li><b>陪跑服务：</b>根据用户或团队的目标，提供阶段性诊断、计划、跟进和复盘服务。</li><li><b>其他课程及顾问服务：</b>根据课程内容、服务周期和交付深度单独定价。</li></ul>
+<h3>7. 健康的长期收入结构</h3>
+<table><tr><th>层级</th><th>建议构成</th></tr>
+<tr><td><b>核心收入</b></td><td>日结/月结交易服务费、上游规模激励和增量运营收益。</td></tr>
+<tr><td><b>稳定收入</b></td><td>平台版本费、企业服务费、API接入费和长期培训产品收入。</td></tr>
+<tr><td><b>项目收入</b></td><td>大客户定制、专项开发、陪跑服务、联合运营、投放执行和其他项目收益。</td></tr></table>
+<div class="callout green"><strong>长期经营原则</strong><br/>平台不能只依赖销售版本，也不能只依赖单个上游的临时激励。更健康的模式，是以稳定交易规模为基础，以企业服务、API、定制和培训等能力扩大收入来源。</div>
+<h2 class="section-anchor" id="b-revenue">七、B端用户赚什么钱</h2>
+<h3>1. 基础CPS佣金</h3><p>B端向消费者推广业务，消费者完成有效下单后，上游按照订单规则支付佣金。典型场景包括外卖、闪购、电影票、快递寄件、电商购物、酒店预订和出行服务。</p>
+<h3>2. 活动和阶梯激励</h3><p>在基础佣金之外，B端还可能获得订单量达标奖励、增量订单奖励、特定时段加码、GMV或复购奖励、新业务测试奖励以及节假日或专项活动补贴。</p>
+<h3>3. 用户长期消费价值</h3><p>同一个C端用户可以持续产生外卖、闪购、快递、票务、电商、酒店、出行和本地生活订单。多业务交叉经营能够提高单个用户的生命周期价值。</p>
+<h3>4. 团队和渠道经营收益</h3><p>具备团队能力的B端，可以通过团队培训、渠道覆盖、业务分发、数据管理和用户运营形成更大规模的订单。代理、分层和团队分佣必须符合平台及上游规则。</p>
+<h3>5. 自有产品商业化</h3><p>拥有网站、小程序、APP或SaaS产品的B端，可以通过API等方式接入云瞻业务，增加产品功能、用户使用频率、会员权益和平台收入。</p>
+<h2 class="section-anchor" id="upstream-cooperation">八、上游为什么要与云瞻合作</h2>
+<div class="cards"><div class="card"><b>获得规模化订单</b>将分散流量转化为稳定、持续和可管理的订单来源。</div><div class="card"><b>降低渠道管理成本</b>统一承担接入、通知、结算、客服和风控。</div><div class="card"><b>提高政策传导效率</b>将复杂政策转化为B端可执行内容。</div><div class="card"><b>提供渠道运营能力</b>进行流失召回、定向激励、高潜筛选、活动组织和增量复盘。</div><div class="card"><b>提供技术和数据能力</b>完成接口、归因、佣金、异常、报表和活动达成监测。</div><div class="card"><b>承担下游服务</b>先行收集、判断和解释渠道问题。</div><div class="card"><b>覆盖长尾渠道</b>触达个人、社群、区域团队和垂直渠道。</div><div class="card"><b>合作模式灵活</b>支持CPS、CPA、阶梯激励、投放、年框、API和联合运营。</div></div>
+<h2 class="section-anchor" id="advantages">九、云瞻对比其他平台的优势</h2>
+<h3>1. 当前已经具备的优势</h3><ul><li>业务聚合能力。</li><li>真实订单承载能力。</li><li>B端用户基础。</li><li>业务运营能力。</li><li>商务谈判能力。</li><li>技术和自动化能力。</li><li>客服和服务体系。</li><li>多种接入方式。</li></ul>
+<h3>2. B端选择云瞻的核心理由</h3><p>B端不应只比较某项业务短期高出几分钱，而应比较业务数量、技术投入、数据管理、结算、运营、客服和长期稳定性的综合成本。</p>
+<h3>3. 上游选择云瞻的核心理由</h3><p>云瞻可以提供规模化B端网络、真实订单和GMV承载、长尾渠道覆盖、快速分发、统一接入、统一结算、统一客服、目标型运营和活动复盘。</p>
+<h3>4. 不能作为长期护城河的表面优势</h3><ul><li>业务数量暂时较多。</li><li>某项业务佣金暂时较高。</li><li>某次活动补贴较多。</li><li>注册门槛较低。</li><li>页面功能相似。</li><li>低价销售平台版本。</li></ul>
+<h3>5. 真正需要建立的长期护城河</h3>
+<table><tr><th>护城河方向</th><th>核心要求</th></tr><tr><td><b>高质量活跃B端网络</b></td><td>持续产生订单、具备增长能力且合作稳定。</td></tr><tr><td><b>上游政策和规模优势</b></td><td>通过稳定订单获得更好佣金、专项激励和合作优先权。</td></tr><tr><td><b>用户和业务数据能力</b></td><td>建立用户分层、流失预警、高潜识别、业务推荐和激励测算。</td></tr><tr><td><b>标准化运营体系</b></td><td>将接入、上线、通知、活动、数据、结算和复盘形成SOP。</td></tr><tr><td><b>服务和信任</b></td><td>数据准确、结算稳定、响应及时、政策解释清楚。</td></tr><tr><td><b>多业务交叉经营</b></td><td>经营同一批用户的多个消费场景，提高生命周期价值。</td></tr><tr><td><b>技术开放能力</b></td><td>通过API、组件、小程序和数据系统嵌入企业客户业务流程。</td></tr></table>
+<h2 class="section-anchor" id="business-scale">十、平台当前经营规模</h2>
+<div class="callout"><strong>阶段性内部经营数据</strong><br/>截至2026年7月27日，平台注册用户约102576人，添加客服用户约65495人；2026年月均产生收益用户约6318人。2026年上半年新增注册用户10256人，同比上涨48.5%；截至2026年6月30日，平台累计产生有效佣金约6413万元。当前合作上游超过30家，在线业务超过200项，日均订单约26万单，日均佣金约26万元，日均GMV约848万元。</div>
+<div class="callout red"><strong>注册用户不等于有效用户</strong><br/>十万级注册用户并不代表十万级有效用户。平台下一阶段不能只追求注册规模，而应提高首次推广、首次出单、持续收益、多业务使用和高价值B端留存。</div>
+<h3>下一阶段重点用户指标</h3><ul><li>添加客服率。</li><li>首次推广率。</li><li>首次出单率。</li><li>首次产生收益率。</li><li>30日留存率。</li><li>月度活跃赚钱用户数。</li><li>高价值B端数量。</li><li>单个B端平均订单量。</li><li>多业务渗透率。</li><li>流失用户召回率。</li></ul>
+<h2 class="section-anchor" id="business-logic">十一、平台的核心经营逻辑</h2>
+<table><tr><th>经营循环</th><th>运行逻辑</th></tr><tr><td><b>上游供给循环</b></td><td>订单规模增长 → 获得更好政策 → B端收益提高 → 吸引更多B端 → 订单继续增长。</td></tr><tr><td><b>B端增长循环</b></td><td>业务更丰富 → B端更容易获得收益 → 留存和活跃提高 → 有效渠道增加 → 上游更愿意合作。</td></tr><tr><td><b>数据运营循环</b></td><td>积累数据 → 识别高潜与流失 → 制定定向方案 → 增加订单和复购 → 积累更多数据。</td></tr><tr><td><b>产品能力循环</b></td><td>业务和用户增加 → 产生系统需求 → 完善平台、API和自动化 → 降低服务成本 → 支撑更大规模。</td></tr><tr><td><b>利润循环</b></td><td>订单和GMV增长 → 服务费和激励增加 → 增加产品和运营投入 → B端获得更好服务 → 继续增长。</td></tr></table>
+<h2 class="section-anchor" id="value-summary">十二、平台对不同角色的价值总结</h2>
+<table><tr><th>对象</th><th>一句话价值</th></tr><tr><td><b>对B端用户</b></td><td>以更低成本获得更多可推广业务，并通过统一系统、数据、结算和运营服务实现持续收益。</td></tr><tr><td><b>对上游</b></td><td>通过一个合作方触达和管理大量分散渠道，以较低管理成本获得稳定订单、GMV、新用户和业务增量。</td></tr><tr><td><b>对C端消费者</b></td><td>通过更多渠道发现优惠和服务，降低消费成本，提高消费便利性。</td></tr><tr><td><b>对云瞻自身</b></td><td>通过聚合供给、渠道和交易，获得版本费、交易服务费、上游激励及增值服务收入。</td></tr></table>
+<h2 class="section-anchor" id="positioning">十三、云瞻的平台定位</h2>
+<h3>对外通用定位</h3><div class="callout"><strong>推荐表述</strong><br/>云瞻开放平台是一家面向推广者、渠道团队和企业客户的综合业务开放平台，聚合本地生活、电商、出行、文旅、票务和快递等业务，为用户提供推广接入、订单数据、佣金结算、运营支持和API能力，帮助B端降低业务接入成本并实现持续变现。</div>
+<h3>面向B端的定位</h3><p>一个平台接入多种消费业务，帮助用户把私域、社群、内容、网站、小程序和APP流量转化为持续佣金收入。</p>
+<h3>面向上游的定位</h3><p>云瞻通过B端用户基础、规模化订单能力和完整渠道运营体系，帮助上游快速触达长尾渠道、完成业务分发并获得持续增量。</p>
+<h3>内部经营定位</h3><p>云瞻的本质不是销售系统或推广链接，而是通过聚合上游业务和B端渠道，持续扩大有效订单规模，并依靠交易服务费、上游激励和增值服务获得利润。</p>
+<h2 class="section-anchor" id="mission-vision">十四、平台使命、愿景和经营主张</h2>
+<table><tr><th>项目</th><th>建议表述</th></tr><tr><td><b>平台使命</b></td><td>让每一个拥有用户和渠道的人，都能以更低成本获得优质业务，并通过长期运营创造稳定收益。</td></tr><tr><td><b>平台愿景</b></td><td>帮助更多的人在移动互联网实现成功创业。</td></tr><tr><td><b>对B端的经营主张</b></td><td>业务更全、接入更快、数据更清、结算更稳、运营更深。</td></tr><tr><td><b>对上游的经营主张</b></td><td>以规模化渠道网络、标准化运营体系和数据技术能力，为业务持续创造真实增量。</td></tr><tr><td><b>内部经营原则</b></td><td>一切围绕有效B端、有效订单、真实增量和最终利润展开。</td></tr></table>
+<h2 class="section-anchor" id="learning-points">十五、内部人员学习重点</h2>
+<table><tr><th>学习主题</th><th>必须形成的统一认识</th></tr><tr><td><b>理解平台本质</b></td><td>平台不是简单返佣工具，核心是连接上游业务与B端渠道。</td></tr><tr><td><b>理解B端用户</b></td><td>B端需要的不只是链接，更需要业务、技术、数据、结算、运营和服务。</td></tr><tr><td><b>理解平台收入</b></td><td>平台收入来自版本、交易服务、上游激励和增值服务。</td></tr><tr><td><b>理解B端收益</b></td><td>B端通过有效订单获得佣金，通过活动和增量获得额外激励，通过多业务提高长期价值。</td></tr><tr><td><b>理解上游合作逻辑</b></td><td>上游与云瞻合作，是为了获得规模订单、渠道覆盖、运营增量和更低管理成本。</td></tr><tr><td><b>理解平台竞争力</b></td><td>真正的竞争力不是短期高佣，而是有效渠道、订单规模、数据能力、运营能力、服务和信任。</td></tr><tr><td><b>理解岗位共同目标</b></td><td>商务争取业务和政策，技术保证系统和数据，运营推动增长，客服降低流失，财务保证结算，管理层保证最终利润。</td></tr></table>
+<h2 class="section-anchor" id="terms">附录：内部常用业务术语</h2>
+<table><tr><th>术语</th><th>内部理解</th></tr><tr><td><b>B端用户</b></td><td>拥有流量、渠道、用户、内容、线下场景或产品能力，通过推广业务获得收益的用户。</td></tr><tr><td><b>C端消费者</b></td><td>最终领取优惠、购买商品或使用服务的个人消费者。</td></tr><tr><td><b>CPS</b></td><td>按照实际成交订单结算佣金的合作方式。</td></tr><tr><td><b>CPA</b></td><td>按照拉新、注册、激活或其他指定行为结算的合作方式。</td></tr><tr><td><b>GMV</b></td><td>一定周期内产生的交易总额，具体是否扣退款需按统计口径说明。</td></tr><tr><td><b>推广位</b></td><td>用于识别不同用户、渠道或推广场景的标识。</td></tr><tr><td><b>订单归因</b></td><td>判断一笔订单由哪个推广者、渠道或推广位带来的过程。</td></tr><tr><td><b>预估佣金</b></td><td>订单产生后根据当前规则计算的预计收益，尚未完成最终结算。</td></tr><tr><td><b>有效订单</b></td><td>符合上游规则、未被判定无效且可进入佣金结算的订单。</td></tr><tr><td><b>活动激励</b></td><td>在基础佣金之外，根据订单量、GMV、增量、复购或其他目标发放的奖励。</td></tr><tr><td><b>日结</b></td><td>在上游正式回款前，由平台按照规则提前向B端结算部分或全部收益。</td></tr><tr><td><b>年框</b></td><td>上游与合作渠道约定年度或阶段性目标，并根据完成情况提供政策和奖励的合作机制。</td></tr></table>
+<div class="footer">—— 以上内容建议作为云瞻开放平台内部业务认知的统一基础资料 ——</div>
+<button aria-label="返回顶部" class="back-top" title="返回顶部" type="button">↑</button><script>
+(() => {
+  const siteNav = document.getElementById('siteNav');
+  const directoryToggle = document.querySelector('.directory-toggle');
+  const directoryDrawer = document.getElementById('directoryDrawer');
+  const drawerClose = document.querySelector('.drawer-close');
+  const drawerBody = document.querySelector('.drawer-body');
+  const primaryLinks = [...document.querySelectorAll('.primary-nav a')];
+  const drawerLinks = [...document.querySelectorAll('.directory-drawer a[data-target]')];
+  const jumpLinks = [...document.querySelectorAll('[data-target]')];
+  const backTop = document.querySelector('.back-top');
+  let drawerTimer = null;
+
+  const groupMap = {
+    'overview':'overview',
+    'platform-overview':'platform-overview', 'core-users':'platform-overview', 'b-value':'platform-overview',
+    'business-source':'business-source', 'business-process':'business-source', 'platform-revenue':'business-source', 'b-revenue':'business-source',
+    'upstream-cooperation':'upstream-cooperation', 'advantages':'upstream-cooperation',
+    'business-scale':'business-scale', 'business-logic':'business-scale', 'value-summary':'business-scale', 'positioning':'business-scale', 'mission-vision':'business-scale',
+    'learning-points':'learning-points', 'terms':'learning-points'
+  };
+
+  function navOffset() {
+    return (siteNav?.offsetHeight || 58) + 12;
+  }
+
+  function openDirectory() {
+    if (drawerTimer) clearTimeout(drawerTimer);
+    directoryDrawer.setAttribute('aria-hidden', 'false');
+    directoryToggle.setAttribute('aria-expanded', 'true');
+    directoryToggle.setAttribute('aria-label', '收起完整目录');
+    document.body.classList.add('drawer-open');
+    requestAnimationFrame(() => {
+      directoryDrawer.classList.add('open');
+    });
+    setTimeout(() => drawerClose?.focus({ preventScroll:true }), 180);
+  }
+
+  function closeDirectory({ restoreFocus = false } = {}) {
+    if (drawerTimer) clearTimeout(drawerTimer);
+    directoryDrawer.classList.remove('open');
+    directoryDrawer.setAttribute('aria-hidden', 'true');
+    directoryToggle.setAttribute('aria-expanded', 'false');
+    directoryToggle.setAttribute('aria-label', '打开完整目录');
+    document.body.classList.remove('drawer-open');
+    drawerTimer = setTimeout(() => {
+      if (restoreFocus) directoryToggle.focus({ preventScroll:true });
+    }, 240);
+  }
+
+  function toggleDirectory() {
+    const isOpen = directoryToggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closeDirectory({ restoreFocus:true });
+    else openDirectory();
+  }
+
+  function jumpTo(id, smooth = true) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - navOffset());
+    window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+    history.replaceState(null, '', `#${id}`);
+  }
+
+  jumpLinks.forEach(link => {
+    link.addEventListener('click', event => {
+      const id = link.dataset.target;
+      if (!id || !document.getElementById(id)) return;
+      event.preventDefault();
+      requestAnimationFrame(() => jumpTo(id, true));
+    });
+  });
+
+  directoryToggle.addEventListener('click', toggleDirectory);
+  drawerClose?.addEventListener('click', () => closeDirectory({ restoreFocus:true }));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && directoryToggle.getAttribute('aria-expanded') === 'true') {
+      closeDirectory({ restoreFocus:true });
+    }
+  });
+
+  const headings = [...document.querySelectorAll('h2[id]')];
+  let ticking = false;
+
+  function updateActiveNav() {
+    const marker = navOffset() + 30;
+    let current = headings[0]?.id;
+    for (const heading of headings) {
+      if (heading.getBoundingClientRect().top <= marker) current = heading.id;
+      else break;
+    }
+    const group = groupMap[current] || 'overview';
+    primaryLinks.forEach(link => link.classList.toggle('active', link.dataset.group === group));
+    let activeDrawerLink = null;
+    drawerLinks.forEach(link => {
+      const active = link.dataset.target === current;
+      link.classList.toggle('active', active);
+      if (active) {
+        link.setAttribute('aria-current', 'location');
+        activeDrawerLink = link;
+      }
+      else link.removeAttribute('aria-current');
+    });
+    if (activeDrawerLink && drawerBody && directoryToggle.getAttribute('aria-expanded') === 'true') {
+      const linkRect = activeDrawerLink.getBoundingClientRect();
+      const bodyRect = drawerBody.getBoundingClientRect();
+      const linkOutsideView = linkRect.top < bodyRect.top + 12 || linkRect.bottom > bodyRect.bottom - 12;
+      if (linkOutsideView) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        drawerBody.scrollTo({
+          top: drawerBody.scrollTop + linkRect.top - bodyRect.top - bodyRect.height / 2 + linkRect.height / 2,
+          behavior: reduceMotion ? 'auto' : 'smooth'
+        });
+      }
+    }
+    if (backTop) backTop.classList.toggle('show', window.scrollY > 600);
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateActiveNav);
+    }
+  }, { passive:true });
+
+  window.addEventListener('resize', () => {
+    if (directoryToggle.getAttribute('aria-expanded') === 'true') updateActiveNav();
+  }, { passive:true });
+
+  if (backTop) {
+    backTop.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+  }
+
+  if (location.hash) {
+    const id = decodeURIComponent(location.hash.slice(1));
+    requestAnimationFrame(() => jumpTo(id, false));
+  }
+  updateActiveNav();
+})();
+</script></body></html>
+
