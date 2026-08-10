@@ -371,7 +371,7 @@
   </style>
   <link href="./dashboard-navigation.css" rel="stylesheet" />
 </head>
-<body>
+<body data-pagefind-body>
   <!--
     Codex维护说明：
     1. 本页定位为“云瞻开放平台 GEO 运营策略看板”，优先保持现有信息架构、视觉层级和交互方式。
@@ -381,7 +381,7 @@
     5. 本页内容来自云瞻 GEO 项目内部讨论。动态业务规则、收费、佣金、业务支持范围上线前必须人工复核。
   -->
 
-  <header class="topbar">
+  <header class="topbar" data-pagefind-ignore>
     <div class="topbar-inner">
       <div class="brand">
         <img alt="云瞻" class="brand-logo" height="789" src="./yunzhan-logo.png" width="2749" />
@@ -391,7 +391,7 @@
   </header>
 
   <div class="drawer-mask" id="drawerMask"></div>
-  <aside class="drawer" id="drawer" aria-label="页面目录">
+  <aside class="drawer" id="drawer" aria-label="页面目录" data-pagefind-ignore>
     <div class="drawer-title">
       <span>完整目录</span>
       <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭完整目录">×</button>
@@ -430,7 +430,7 @@
       </div>
     </section>
 
-    <header class="section-nav" id="siteNav">
+    <header class="section-nav" data-pagefind-ignore id="siteNav">
       <div class="section-nav-inner">
         <span class="section-nav-brand">GEO运营策略</span>
         <nav class="topnav" aria-label="主要章节导航">
