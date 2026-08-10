@@ -3,99 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="云瞻开放平台业务体系介绍与 GEO 运营策略看板。" />
-  <title>云瞻开放平台看板</title>
-  <style>
-    * { box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; margin: 0; }
-    body { overflow: hidden; background: #fff; }
-    .dashboard-shell { position: relative; width: 100%; height: 100%; }
-    .dashboard-frame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
-    .dashboard-frame[hidden] { display: none; }
-    .dashboard-switcher {
-      position: fixed;
-      left: 50%;
-      bottom: max(16px, env(safe-area-inset-bottom));
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      max-width: calc(100% - 24px);
-      padding: 5px;
-      border: 1px solid rgba(148, 163, 184, .32);
-      border-radius: 16px;
-      background: rgba(255, 255, 255, .96);
-      box-shadow: 0 12px 36px rgba(15, 23, 42, .18);
-      backdrop-filter: blur(12px);
-      transform: translateX(-50%);
-    }
-    .dashboard-switcher-title {
-      padding: 0 9px;
-      color: #64748b;
-      font: 700 12px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
-      white-space: nowrap;
-    }
-    .dashboard-switcher button {
-      border: 0;
-      border-radius: 11px;
-      padding: 9px 13px;
-      background: transparent;
-      color: #475569;
-      cursor: pointer;
-      font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
-      white-space: nowrap;
-    }
-    .dashboard-switcher button:hover { color: #2563eb; background: #eff6ff; }
-    .dashboard-switcher button[aria-pressed="true"] {
-      color: #fff;
-      background: #2563eb;
-      box-shadow: 0 5px 14px rgba(37, 99, 235, .24);
-    }
-    .dashboard-switcher button:focus-visible {
-      outline: 3px solid rgba(37, 99, 235, .3);
-      outline-offset: 2px;
-    }
-    @media (max-width: 520px) {
-      .dashboard-switcher { width: calc(100% - 24px); justify-content: center; }
-      .dashboard-switcher-title { display: none; }
-      .dashboard-switcher button { flex: 1; padding-inline: 8px; }
-    }
-  </style>
+  <meta name="description" content="云瞻开放平台业务体系介绍与 GEO 运营策略知识看板。" />
+  <title>云瞻开放平台知识库</title>
+  <link rel="stylesheet" href="./shell.css" />
 </head>
 <body>
-  <main class="dashboard-shell">
-    <iframe class="dashboard-frame" data-dashboard="overview" src="./yunzhan.html" title="云瞻开放平台与业务体系介绍"></iframe>
-    <iframe class="dashboard-frame" data-dashboard="geo" src="./geo-strategy-dashboard.html" title="云瞻开放平台 GEO 运营策略看板" hidden></iframe>
-    <nav class="dashboard-switcher" aria-label="看板切换">
-      <span class="dashboard-switcher-title">云瞻看板</span>
-      <button type="button" data-target="overview" aria-pressed="true">平台介绍</button>
-      <button type="button" data-target="geo" aria-pressed="false">GEO 运营策略</button>
-    </nav>
+  <main class="document-shell" id="documentShell">
+    <aside class="knowledge-sidebar" aria-label="云瞻知识库看板导航">
+      <div class="knowledge-sidebar-header">
+        <div class="knowledge-brand-mark" aria-hidden="true">云</div>
+        <div class="knowledge-brand-copy">
+          <strong>云瞻知识库</strong>
+          <span>开放平台看板入口</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="收起看板导航" aria-expanded="true">
+          <span class="sidebar-toggle-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <nav class="dashboard-navigation" aria-label="看板切换">
+        <p class="dashboard-navigation-title">知识看板</p>
+        <button class="dashboard-navigation-item" type="button" data-target="overview" aria-label="平台介绍" aria-current="page">
+          <span class="dashboard-navigation-index" aria-hidden="true">01</span>
+          <span class="dashboard-navigation-copy">
+            <strong>平台介绍</strong>
+            <small>业务体系与平台知识</small>
+          </span>
+        </button>
+        <button class="dashboard-navigation-item" type="button" data-target="geo" aria-label="GEO 运营策略">
+          <span class="dashboard-navigation-index" aria-hidden="true">02</span>
+          <span class="dashboard-navigation-copy">
+            <strong>GEO 运营策略</strong>
+            <small>词包、Prompt 与执行机制</small>
+          </span>
+        </button>
+      </nav>
+    </aside>
+
+    <section class="dashboard-stage" aria-label="当前看板内容">
+      <iframe class="document-frame" data-dashboard="overview" src="./yunzhan.html" title="云瞻开放平台与业务体系介绍"></iframe>
+      <iframe class="document-frame" data-dashboard="geo" src="./geo-strategy-dashboard.html" title="云瞻开放平台 GEO 运营策略看板" hidden></iframe>
+    </section>
   </main>
+
   <script>
-    const frames = [...document.querySelectorAll("[data-dashboard]")];
-    const buttons = [...document.querySelectorAll("[data-target]")];
+    const shell = document.getElementById("documentShell");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const dashboardButtons = [...document.querySelectorAll("[data-target]")];
+    const dashboardFrames = [...document.querySelectorAll("[data-dashboard]")];
+    let activeDashboard = "overview";
+
+    function dashboardFromAddress() {
+      return new URLSearchParams(window.location.search).get("dashboard") === "geo" ? "geo" : "overview";
+    }
 
     function showDashboard(id, updateAddress = true) {
-      const activeId = id === "geo" ? "geo" : "overview";
-      frames.forEach((frame) => { frame.hidden = frame.dataset.dashboard !== activeId; });
-      buttons.forEach((button) => {
-        button.setAttribute("aria-pressed", String(button.dataset.target === activeId));
+      const nextDashboard = id === "geo" ? "geo" : "overview";
+      if (updateAddress && nextDashboard === activeDashboard) return;
+      activeDashboard = nextDashboard;
+
+      dashboardFrames.forEach((frame) => {
+        frame.hidden = frame.dataset.dashboard !== activeDashboard;
+      });
+      dashboardButtons.forEach((button) => {
+        if (button.dataset.target === activeDashboard) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
       });
 
       if (updateAddress) {
         const url = new URL(window.location.href);
-        if (activeId === "geo") url.searchParams.set("dashboard", "geo");
+        if (activeDashboard === "geo") url.searchParams.set("dashboard", "geo");
         else url.searchParams.delete("dashboard");
-        window.history.replaceState(null, "", url);
+        url.hash = "";
+        window.history.pushState(null, "", `${url.pathname}${url.search}`);
       }
     }
 
-    buttons.forEach((button) => {
+    dashboardButtons.forEach((button) => {
       button.addEventListener("click", () => showDashboard(button.dataset.target));
     });
+    window.addEventListener("popstate", () => showDashboard(dashboardFromAddress(), false));
 
-    showDashboard(new URLSearchParams(window.location.search).get("dashboard"), false);
+    sidebarToggle.addEventListener("click", () => {
+      const collapsed = shell.classList.toggle("sidebar-collapsed");
+      sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+      sidebarToggle.setAttribute("aria-label", collapsed ? "展开看板导航" : "收起看板导航");
+      dashboardButtons.forEach((button) => {
+        button.title = collapsed ? button.getAttribute("aria-label") : "";
+      });
+    });
+
+    const initialDashboard = dashboardFromAddress();
+    showDashboard(initialDashboard, false);
+    if (window.location.hash) {
+      const frame = dashboardFrames.find((item) => item.dataset.dashboard === initialDashboard);
+      if (frame) frame.src = `${frame.getAttribute("src")}${window.location.hash}`;
+    }
   </script>
 </body>
 </html>

@@ -106,19 +106,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      min-height: 44px;
       font-weight: 700;
       margin-left: 4px;
     }
 
-    .drawer-mask {
-      position: fixed;
-      inset: var(--topbar) 0 0 0;
-      background: rgba(15,23,42,.2);
-      z-index: 1090;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s ease;
-    }
+    .drawer-mask { display: none; }
     .drawer {
       position: fixed;
       top: var(--topbar);
@@ -135,8 +128,32 @@
       padding: 20px 18px 28px;
     }
     body.drawer-open .drawer { transform: translateX(0); }
-    body.drawer-open .drawer-mask { opacity: 1; pointer-events: auto; }
-    .drawer-title { font-size: 13px; color: var(--muted); font-weight: 700; padding: 0 8px 10px; }
+    body.drawer-open { overflow: visible; }
+    .drawer-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      padding: 0 4px 10px 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .drawer-close {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .drawer-close:hover { border-color: #bfdbfe; background: var(--primary-weak); color: var(--primary); }
     .drawer a {
       display: block;
       padding: 10px 12px;
@@ -146,7 +163,49 @@
       font-size: 14px;
     }
     .drawer a:hover { background: var(--primary-weak); color: var(--primary); }
+    .drawer a.active {
+      position: relative;
+      background: var(--primary-weak);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .drawer a.active::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      bottom: 9px;
+      left: 0;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--primary);
+    }
     .drawer .sub { padding-left: 28px; color: #64748b; font-size: 13px; }
+
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      z-index: 1200;
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(15,23,42,.22);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity .18s ease, visibility .18s ease, transform .18s ease;
+    }
+    .back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .drawer-close:focus-visible, .back-top:focus-visible {
+      outline: 3px solid rgba(37,99,235,.3);
+      outline-offset: 2px;
+    }
 
     main {
       width: min(calc(100% - 32px), var(--max));
@@ -292,7 +351,11 @@
       .flow-item::after { display: none !important; }
       .prompt-list { columns: 1; }
       .card { padding: 18px; }
+      .back-top { right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); }
       .section-title { font-size: 21px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .drawer, .back-top { transition: none; }
     }
   </style>
 </head>
@@ -301,7 +364,7 @@
     Codex维护说明：
     1. 本页定位为“云瞻开放平台 GEO 运营策略看板”，优先保持现有信息架构、视觉层级和交互方式。
     2. 顶部导航保持精简；完整目录通过左侧抽屉展开，抽屉为覆盖式，不推动主内容区域。
-    3. 目录/导航点击采用即时定位，不使用长距离 smooth scroll，避免页面滚动拖沓。
+    3. 目录选择后保持打开，页面继续正常滚动；页面滚动时目录高亮与当前位置同步。
     4. 后续新增词包、Prompt或数据时，尽量复用现有 .wordpack / .card / table 组件，不重做整体风格。
     5. 本页内容来自云瞻 GEO 项目内部讨论。动态业务规则、收费、佣金、业务支持范围上线前必须人工复核。
   -->
@@ -326,7 +389,10 @@
 
   <div class="drawer-mask" id="drawerMask"></div>
   <aside class="drawer" id="drawer" aria-label="页面目录">
-    <div class="drawer-title">完整目录</div>
+    <div class="drawer-title">
+      <span>完整目录</span>
+      <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭完整目录">×</button>
+    </div>
     <a href="#overview">01 · 项目总览</a>
     <a href="#strategy">02 · GEO战略架构</a>
     <a class="sub" href="#brand-base">品牌底座</a>
@@ -624,11 +690,27 @@
     <div class="footer-note">云瞻开放平台 · GEO运营策略看板 · 内部运营版本</div>
   </main>
 
+  <button class="back-top" id="backTop" type="button" aria-label="返回顶部" title="返回顶部">↑</button>
+
   <script>
     const body = document.body;
     const directoryBtn = document.getElementById('directoryBtn');
-    const drawerMask = document.getElementById('drawerMask');
     const drawer = document.getElementById('drawer');
+    const drawerClose = document.getElementById('drawerClose');
+    const drawerLinks = [...drawer.querySelectorAll('a[href^="#"]')];
+    const topLinks = [...document.querySelectorAll('.topnav a[href^="#"]')];
+    const jumpLinks = [...document.querySelectorAll('a[href^="#"]')];
+    const backTop = document.getElementById('backTop');
+
+    const groupMap = {
+      overview: 'overview',
+      strategy: 'strategy', 'brand-base': 'strategy', journey: 'strategy',
+      wordpacks: 'wordpacks', wp1: 'wordpacks', wp2: 'wordpacks', wp3: 'wordpacks',
+      wp4: 'wordpacks', wp5: 'wordpacks', wp6: 'wordpacks', wp7: 'wordpacks',
+      benchmark: 'benchmark',
+      execution: 'execution', 'content-types': 'execution', 'system-role': 'execution',
+      metrics: 'metrics', risks: 'metrics'
+    };
 
     function toggleDrawer(force) {
       const next = typeof force === 'boolean' ? force : !body.classList.contains('drawer-open');
@@ -637,36 +719,96 @@
     }
 
     directoryBtn.addEventListener('click', () => toggleDrawer());
-    drawerMask.addEventListener('click', () => toggleDrawer(false));
+    drawerClose.addEventListener('click', () => {
+      toggleDrawer(false);
+      directoryBtn.focus({ preventScroll: true });
+    });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleDrawer(false); });
 
-    function jumpToHash(hash) {
-      if (!hash || hash === '#') return;
-      const el = document.querySelector(hash);
+    function jumpTo(id, smooth = true) {
+      const el = document.getElementById(id);
       if (!el) return;
-      el.scrollIntoView({ behavior: 'auto', block: 'start' });
-      history.replaceState(null, '', hash);
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const top = Math.max(0, window.scrollY + el.getBoundingClientRect().top - 82);
+      window.scrollTo({ top, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+      history.replaceState(null, '', `#${id}`);
     }
 
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
+    jumpLinks.forEach(link => {
       link.addEventListener('click', e => {
-        const hash = link.getAttribute('href');
-        if (document.querySelector(hash)) {
-          e.preventDefault();
-          toggleDrawer(false);
-          jumpToHash(hash);
-        }
+        const id = decodeURIComponent(link.getAttribute('href').slice(1));
+        if (!document.getElementById(id)) return;
+        e.preventDefault();
+        jumpTo(id);
       });
     });
 
-    const topLinks = [...document.querySelectorAll('.topnav a[href^="#"]')];
-    const watched = topLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      topLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + visible.target.id));
-    }, { rootMargin: '-25% 0px -60% 0px', threshold: [0.01, .15, .4] });
-    watched.forEach(s => observer.observe(s));
+    const watchedTargets = drawerLinks
+      .map(link => document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1))))
+      .filter(Boolean);
+    let ticking = false;
+
+    function updateActiveNavigation() {
+      const marker = 112;
+      let current = watchedTargets[0]?.id;
+      for (const target of watchedTargets) {
+        if (target.getBoundingClientRect().top <= marker) current = target.id;
+        else break;
+      }
+
+      const activeGroup = groupMap[current] || 'overview';
+      topLinks.forEach(link => {
+        const id = decodeURIComponent(link.getAttribute('href').slice(1));
+        link.classList.toggle('active', id === activeGroup);
+      });
+
+      let activeDrawerLink = null;
+      drawerLinks.forEach(link => {
+        const id = decodeURIComponent(link.getAttribute('href').slice(1));
+        const active = id === current;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'location');
+          activeDrawerLink = link;
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+
+      if (activeDrawerLink && body.classList.contains('drawer-open')) {
+        const linkRect = activeDrawerLink.getBoundingClientRect();
+        const drawerRect = drawer.getBoundingClientRect();
+        if (linkRect.top < drawerRect.top + 58 || linkRect.bottom > drawerRect.bottom - 16) {
+          const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          drawer.scrollTo({
+            top: drawer.scrollTop + linkRect.top - drawerRect.top - drawerRect.height / 2,
+            behavior: reduceMotion ? 'auto' : 'smooth'
+          });
+        }
+      }
+
+      backTop.classList.toggle('show', window.scrollY > 600);
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateActiveNavigation);
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', updateActiveNavigation, { passive: true });
+    backTop.addEventListener('click', () => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+
+    if (location.hash) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      requestAnimationFrame(() => jumpTo(id, false));
+    }
+    updateActiveNavigation();
   </script>
 </body>
 </html>
