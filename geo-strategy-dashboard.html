@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="云瞻开放平台 GEO 运营策略看板：围绕 CPS、系统搭建、API 对接三大业务方向，建立词包、Prompt 问题库、执行机制与效果监控。" />
+  <title>云瞻开放平台 · GEO运营策略看板</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #182230;
+      --muted: #64748b;
+      --line: #e6ebf2;
+      --primary: #2563eb;
+      --primary-weak: #eff6ff;
+      --navy: #0f172a;
+      --green: #059669;
+      --green-weak: #ecfdf5;
+      --amber: #d97706;
+      --amber-weak: #fffbeb;
+      --red: #dc2626;
+      --red-weak: #fef2f2;
+      --purple: #7c3aed;
+      --purple-weak: #f5f3ff;
+      --shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
+      --radius: 18px;
+      --topbar: 66px;
+      --max: 1440px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.68;
+    }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--topbar);
+      z-index: 1000;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,232,240,.85);
+    }
+    .topbar-inner {
+      width: min(calc(100% - 32px), var(--max));
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      box-shadow: 0 7px 18px rgba(37,99,235,.25);
+    }
+    .brand-sub { color: var(--muted); font-size: 12px; font-weight: 500; margin-left: 2px; }
+    .topnav {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a, .directory-btn {
+      border: 0;
+      background: transparent;
+      color: #475569;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 14px;
+      transition: .18s ease;
+    }
+    .topnav a:hover, .topnav a.active, .directory-btn:hover {
+      background: var(--primary-weak);
+      color: var(--primary);
+    }
+    .directory-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .drawer-mask {
+      position: fixed;
+      inset: var(--topbar) 0 0 0;
+      background: rgba(15,23,42,.2);
+      z-index: 1090;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .drawer {
+      position: fixed;
+      top: var(--topbar);
+      bottom: 0;
+      left: 0;
+      width: min(340px, 88vw);
+      background: #fff;
+      z-index: 1100;
+      border-right: 1px solid var(--line);
+      box-shadow: 18px 0 45px rgba(15,23,42,.12);
+      transform: translateX(-102%);
+      transition: transform .22s ease;
+      overflow-y: auto;
+      padding: 20px 18px 28px;
+    }
+    body.drawer-open .drawer { transform: translateX(0); }
+    body.drawer-open .drawer-mask { opacity: 1; pointer-events: auto; }
+    .drawer-title { font-size: 13px; color: var(--muted); font-weight: 700; padding: 0 8px 10px; }
+    .drawer a {
+      display: block;
+      padding: 10px 12px;
+      margin: 3px 0;
+      border-radius: 10px;
+      color: #334155;
+      font-size: 14px;
+    }
+    .drawer a:hover { background: var(--primary-weak); color: var(--primary); }
+    .drawer .sub { padding-left: 28px; color: #64748b; font-size: 13px; }
+
+    main {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: calc(var(--topbar) + 28px) 0 72px;
+    }
+    section { scroll-margin-top: 86px; margin-bottom: 28px; }
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #173d7a 60%, #0b6aa2 100%);
+      color: #fff;
+      border-radius: 26px;
+      padding: 42px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 22px 55px rgba(15,23,42,.16);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      right: -100px;
+      top: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.2), rgba(255,255,255,0) 68%);
+    }
+    .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #bfdbfe; }
+    .hero h1 { font-size: clamp(30px, 4vw, 52px); line-height: 1.15; margin: 10px 0 14px; letter-spacing: -.8px; }
+    .hero p { max-width: 900px; color: #dbeafe; font-size: 16px; margin: 0; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; position: relative; z-index: 1; }
+    .hero-badge { padding: 8px 12px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); border-radius: 999px; font-size: 13px; }
+
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 0 2px 14px; }
+    .section-title { margin: 0; font-size: 24px; line-height: 1.25; }
+    .section-desc { color: var(--muted); font-size: 14px; margin-top: 6px; }
+    .kicker { color: var(--primary); font-size: 12px; font-weight: 800; letter-spacing: .8px; margin-bottom: 4px; }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .metric { font-size: 30px; font-weight: 900; line-height: 1; margin-bottom: 8px; letter-spacing: -.6px; }
+    .metric-label { color: var(--muted); font-size: 13px; }
+    .metric.blue { color: var(--primary); }
+    .metric.green { color: var(--green); }
+    .metric.purple { color: var(--purple); }
+    .metric.amber { color: var(--amber); }
+
+    .strategy-map {
+      display: grid;
+      grid-template-columns: 1fr 1.7fr;
+      gap: 16px;
+    }
+    .foundation {
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: #fff;
+    }
+    .foundation p { color: #cbd5e1; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .pill { padding: 6px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 700; }
+    .foundation .pill { background: rgba(255,255,255,.1); color: #e2e8f0; }
+
+    .theme-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .theme { border-radius: 16px; padding: 18px; min-height: 150px; border: 1px solid transparent; }
+    .theme.cps { background: var(--primary-weak); border-color: #bfdbfe; }
+    .theme.system { background: var(--green-weak); border-color: #a7f3d0; }
+    .theme.api { background: var(--purple-weak); border-color: #ddd6fe; }
+    .theme b { display: block; font-size: 18px; margin-bottom: 8px; }
+    .theme ul { margin: 0; padding-left: 18px; color: #475569; font-size: 13px; }
+
+    .journey { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .journey-step { position: relative; padding: 19px; background: #fff; border: 1px solid var(--line); border-radius: 16px; }
+    .journey-step .num { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--primary-weak); color: var(--primary); font-weight: 900; margin-bottom: 10px; }
+    .journey-step h3 { margin: 0 0 7px; font-size: 16px; }
+    .journey-step p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td { text-align: left; padding: 13px 15px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 13px; }
+    th { background: #f8fafc; color: #475569; font-weight: 800; position: sticky; top: 0; }
+    tr:last-child td { border-bottom: 0; }
+    .priority { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 900; }
+    .p0 { background: var(--red-weak); color: var(--red); }
+    .p1 { background: var(--amber-weak); color: var(--amber); }
+
+    .wordpack { margin-bottom: 16px; }
+    .wordpack-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .wordpack-index { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--navy); color: #fff; font-weight: 900; }
+    .wordpack-title { font-size: 20px; font-weight: 900; }
+    .wordpack-target { color: var(--muted); font-size: 13px; }
+    .cols { display: grid; grid-template-columns: .9fr 1.1fr; gap: 16px; }
+    .subcard { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .subcard h4 { margin: 0 0 10px; font-size: 14px; }
+    .keyword-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .keyword { padding: 5px 9px; background: #fff; border: 1px solid #dbe3ee; color: #475569; border-radius: 8px; font-size: 12px; }
+    .prompt-list { margin: 0; padding-left: 22px; columns: 2; column-gap: 34px; }
+    .prompt-list li { break-inside: avoid; margin: 0 0 8px; color: #334155; font-size: 13px; }
+
+    .flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    .flow-item { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 15px 12px; text-align: center; font-size: 13px; font-weight: 800; position: relative; }
+    .flow-item:not(:last-child)::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: #94a3b8; z-index: 2; }
+
+    .callout { border-radius: 16px; padding: 18px 20px; border: 1px solid; font-size: 14px; }
+    .callout strong { display: block; margin-bottom: 5px; }
+    .callout.info { background: var(--primary-weak); border-color: #bfdbfe; color: #1e3a8a; }
+    .callout.warn { background: var(--amber-weak); border-color: #fde68a; color: #92400e; }
+    .callout.risk { background: var(--red-weak); border-color: #fecaca; color: #991b1b; }
+
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .test-group { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 17px; }
+    .test-group h4 { margin: 0 0 10px; font-size: 15px; }
+    .test-group ol { margin: 0; padding-left: 20px; }
+    .test-group li { font-size: 13px; margin-bottom: 7px; color: #475569; }
+
+    .footer-note { text-align: center; color: #94a3b8; font-size: 12px; padding-top: 14px; }
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-template-columns: repeat(2,1fr); }
+      .grid-3, .theme-cards, .test-grid { grid-template-columns: repeat(2,1fr); }
+      .strategy-map, .cols { grid-template-columns: 1fr; }
+      .journey { grid-template-columns: repeat(2,1fr); }
+      .flow { grid-template-columns: repeat(3,1fr); }
+      .flow-item:nth-child(3)::after { display: none; }
+    }
+    @media (max-width: 760px) {
+      :root { --topbar: 58px; }
+      .topbar-inner { width: min(calc(100% - 18px), var(--max)); }
+      .brand-sub, .topnav a { display: none; }
+      .directory-btn { margin-left: auto; }
+      main { width: min(calc(100% - 18px), var(--max)); padding-top: calc(var(--topbar) + 16px); }
+      .hero { padding: 28px 22px; border-radius: 20px; }
+      .hero h1 { font-size: 30px; }
+      .grid-2, .grid-3, .grid-4, .theme-cards, .journey, .test-grid, .flow { grid-template-columns: 1fr; }
+      .flow-item::after { display: none !important; }
+      .prompt-list { columns: 1; }
+      .card { padding: 18px; }
+      .section-title { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    Codex维护说明：
+    1. 本页定位为“云瞻开放平台 GEO 运营策略看板”，优先保持现有信息架构、视觉层级和交互方式。
+    2. 顶部导航保持精简；完整目录通过左侧抽屉展开，抽屉为覆盖式，不推动主内容区域。
+    3. 目录/导航点击采用即时定位，不使用长距离 smooth scroll，避免页面滚动拖沓。
+    4. 后续新增词包、Prompt或数据时，尽量复用现有 .wordpack / .card / table 组件，不重做整体风格。
+    5. 本页内容来自云瞻 GEO 项目内部讨论。动态业务规则、收费、佣金、业务支持范围上线前必须人工复核。
+  -->
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">GEO</div>
+        <div>云瞻开放平台 <span class="brand-sub">GEO运营策略看板</span></div>
+      </div>
+      <nav class="topnav" aria-label="主导航">
+        <a href="#overview">总览</a>
+        <a href="#strategy">战略架构</a>
+        <a href="#wordpacks">词包</a>
+        <a href="#benchmark">Prompt库</a>
+        <a href="#execution">执行机制</a>
+        <a href="#metrics">指标</a>
+        <button class="directory-btn" id="directoryBtn" type="button" aria-expanded="false">☰ 目录</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="drawer-mask" id="drawerMask"></div>
+  <aside class="drawer" id="drawer" aria-label="页面目录">
+    <div class="drawer-title">完整目录</div>
+    <a href="#overview">01 · 项目总览</a>
+    <a href="#strategy">02 · GEO战略架构</a>
+    <a class="sub" href="#brand-base">品牌底座</a>
+    <a class="sub" href="#journey">四层用户决策链</a>
+    <a href="#wordpacks">03 · 第一批7个词包</a>
+    <a class="sub" href="#wp1">CPS平台</a>
+    <a class="sub" href="#wp2">本地生活CPS平台</a>
+    <a class="sub" href="#wp3">CPS系统搭建</a>
+    <a class="sub" href="#wp4">CPS API接口</a>
+    <a class="sub" href="#wp5">本地生活API接口</a>
+    <a class="sub" href="#wp6">外卖优惠券/返利小程序</a>
+    <a class="sub" href="#wp7">云瞻开放平台品牌词</a>
+    <a href="#benchmark">04 · 30个基准Prompt</a>
+    <a href="#execution">05 · 执行与分工</a>
+    <a class="sub" href="#content-types">文章内容类型</a>
+    <a class="sub" href="#system-role">系统与人工边界</a>
+    <a href="#metrics">06 · 监控指标</a>
+    <a href="#risks">07 · 风险与原则</a>
+  </aside>
+
+  <main>
+    <section id="overview" class="hero">
+      <div class="eyebrow">YUNZHAN · GEO OPERATING PLAYBOOK</div>
+      <h1>让云瞻进入 AI 的候选答案，<br>再逐步进入推荐答案。</h1>
+      <p>围绕「CPS」「系统搭建」「API 对接」三大业务入口，建立品牌底座、核心词包、真实用户 Prompt、内容矩阵与效果监控。核心不是“发多少文章”，而是当潜在客户向 AI 咨询相关问题时，云瞻能够被准确识别、提及并推荐。</p>
+      <div class="hero-badges">
+        <span class="hero-badge">1个品牌底座</span>
+        <span class="hero-badge">3大业务主题</span>
+        <span class="hero-badge">7个首批词包</span>
+        <span class="hero-badge">30个基准Prompt</span>
+        <span class="hero-badge">发现 → 比较 → 决策 → 验证</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid grid-4">
+        <div class="card"><div class="metric blue">3</div><div class="metric-label">核心业务方向：CPS / 系统 / API</div></div>
+        <div class="card"><div class="metric green">7</div><div class="metric-label">第一阶段核心词包</div></div>
+        <div class="card"><div class="metric purple">30</div><div class="metric-label">首批固定测试Prompt</div></div>
+        <div class="card"><div class="metric amber">4</div><div class="metric-label">用户决策阶段</div></div>
+      </div>
+    </section>
+
+    <section id="strategy">
+      <div class="section-head">
+        <div>
+          <div class="kicker">STRATEGY</div>
+          <h2 class="section-title">GEO战略架构</h2>
+          <div class="section-desc">不是“三组关键词”，而是“品牌底座 + 三个业务主题 + 四层问题链”。</div>
+        </div>
+      </div>
+
+      <div class="strategy-map">
+        <div class="card foundation" id="brand-base">
+          <h3>品牌底座：云瞻开放平台</h3>
+          <p>三个业务方向最终都会回到品牌验证。必须让 AI 能稳定回答“云瞻是谁、做什么、适合谁、收费/结算/技术能力如何、是否靠谱”。</p>
+          <div class="pill-row">
+            <span class="pill">品牌介绍</span><span class="pill">业务范围</span><span class="pill">优势</span><span class="pill">资质</span><span class="pill">案例</span><span class="pill">收费</span><span class="pill">结算</span><span class="pill">技术能力</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="theme-cards">
+            <div class="theme cps"><b>01 · CPS</b><ul><li>CPS平台</li><li>本地生活CPS</li><li>佣金 / 结算 / 推广</li><li>平台选择与比较</li></ul></div>
+            <div class="theme system"><b>02 · 系统搭建</b><ul><li>CPS系统</li><li>返利/返佣系统</li><li>外卖优惠券小程序</li><li>SaaS与自研选择</li></ul></div>
+            <div class="theme api"><b>03 · API对接</b><ul><li>CPS API</li><li>本地生活API</li><li>订单/佣金/转链接口</li><li>企业级系统接入</li></ul></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+      <div id="journey" class="journey">
+        <div class="journey-step"><div class="num">1</div><h3>发现</h3><p>“CPS怎么做？”“有哪些平台？”——目标是让云瞻进入候选名单。</p></div>
+        <div class="journey-step"><div class="num">2</div><h3>比较</h3><p>“哪家业务全？”“哪家稳定？”——目标是建立优势认知。</p></div>
+        <div class="journey-step"><div class="num">3</div><h3>决策</h3><p>“怎么收费？”“怎么接？”——目标是解决采购与接入问题。</p></div>
+        <div class="journey-step"><div class="num">4</div><h3>验证</h3><p>“云瞻靠谱吗？”“有哪些案例？”——目标是消除最后的品牌疑虑。</p></div>
+      </div>
+    </section>
+
+    <section id="wordpacks">
+      <div class="section-head">
+        <div>
+          <div class="kicker">WORD PACKS</div>
+          <h2 class="section-title">第一阶段：7个核心词包</h2>
+          <div class="section-desc">系统负责扩词，我们负责决定“什么值得扩”，再人工筛掉低价值、偏题和不符合真实业务的词。</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>优先级</th><th>方向</th><th>核心词包</th><th>主要获客目标</th></tr></thead>
+          <tbody>
+            <tr><td><span class="priority p0">P0</span></td><td>CPS</td><td><b>CPS平台</b></td><td>泛CPS客户、推广者、团队</td></tr>
+            <tr><td><span class="priority p0">P0</span></td><td>CPS</td><td><b>本地生活CPS平台</b></td><td>美团/外卖/本地生活推广客户</td></tr>
+            <tr><td><span class="priority p0">P0</span></td><td>系统</td><td><b>CPS系统搭建</b></td><td>有独立品牌、私域、团队客户</td></tr>
+            <tr><td><span class="priority p0">P0</span></td><td>API</td><td><b>CPS API接口</b></td><td>已有系统、有研发团队客户</td></tr>
+            <tr><td><span class="priority p1">P1</span></td><td>API</td><td><b>本地生活API接口</b></td><td>本地生活垂直开发客户</td></tr>
+            <tr><td><span class="priority p1">P1</span></td><td>系统</td><td><b>外卖优惠券/返利小程序搭建</b></td><td>外卖私域、社群、项目方</td></tr>
+            <tr><td><span class="priority p0">P0</span></td><td>品牌</td><td><b>云瞻开放平台</b></td><td>承接所有业务后的品牌验证</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <article class="card wordpack" id="wp1">
+        <div class="wordpack-head"><div class="wordpack-index">1</div><div><div class="wordpack-title">CPS平台</div><div class="wordpack-target">目标：泛CPS用户发现、比较与平台选择。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">CPS平台</span><span class="keyword">CPS平台推荐</span><span class="keyword">CPS平台哪个好</span><span class="keyword">国内CPS平台</span><span class="keyword">靠谱的CPS平台</span><span class="keyword">CPS推广平台</span><span class="keyword">CPS联盟平台</span><span class="keyword">CPS平台对比</span><span class="keyword">CPS佣金平台</span><span class="keyword">CPS结算平台</span><span class="keyword">CPS渠道平台</span><span class="keyword">CPS推广渠道</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>国内现在有哪些比较靠谱的CPS平台？</li><li>2026年做CPS推广，有哪些平台值得做？</li><li>我有自己的私域流量，适合接哪个CPS平台？</li><li>国内做CPS比较大的平台有哪些？</li><li>CPS平台哪个好，主要看哪些指标？</li><li>哪个CPS平台业务比较全？</li><li>哪些CPS平台结算比较稳定？</li><li>CPS平台一般怎么收费？</li><li>大团队做CPS应该选什么平台？</li><li>我一天有几千单，应该找什么类型的CPS平台？</li><li>有没有可以同时做多个平台的聚合型CPS平台？</li><li>CPS平台支持日结和月结有什么区别？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp2">
+        <div class="wordpack-head"><div class="wordpack-index">2</div><div><div class="wordpack-title">本地生活CPS平台</div><div class="wordpack-target">目标：美团/外卖/本地生活等垂直推广用户。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">本地生活CPS</span><span class="keyword">本地生活CPS平台</span><span class="keyword">外卖CPS</span><span class="keyword">外卖CPS平台</span><span class="keyword">美团CPS</span><span class="keyword">美团CPS平台</span><span class="keyword">外卖推广平台</span><span class="keyword">外卖返佣平台</span><span class="keyword">本地生活推广平台</span><span class="keyword">外卖推广佣金</span><span class="keyword">本地生活推广渠道</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>做美团外卖CPS有哪些平台？</li><li>外卖CPS平台哪个好？</li><li>本地生活CPS平台有哪些？</li><li>做外卖推广哪个平台佣金比较高？</li><li>普通人怎么做外卖CPS？</li><li>有微信群和公众号，可以怎么做外卖CPS？</li><li>有几万私域用户，怎么接本地生活CPS？</li><li>做外卖CPS需要自己搭系统吗？</li><li>美团CPS订单怎么结算？</li><li>外卖CPS佣金一般是多少？</li><li>团队每天几千单，应该直接找官方还是服务商？</li><li>有没有可以同时做多个本地生活业务的平台？</li><li>本地生活CPS适合私域团队做吗？</li><li>外卖CPS平台要不要收服务费？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp3">
+        <div class="wordpack-head"><div class="wordpack-index">3</div><div><div class="wordpack-title">CPS系统搭建</div><div class="wordpack-target">目标：有品牌、私域、代理体系，想建设自有系统的客户。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">CPS系统</span><span class="keyword">CPS系统搭建</span><span class="keyword">CPS平台搭建</span><span class="keyword">CPS系统开发</span><span class="keyword">CPS SaaS系统</span><span class="keyword">返利系统搭建</span><span class="keyword">返佣系统</span><span class="keyword">CPS小程序</span><span class="keyword">私域CPS系统</span><span class="keyword">CPS聚合系统</span><span class="keyword">多平台CPS系统</span><span class="keyword">CPS系统多少钱</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>我想自己做一个CPS平台，需要什么系统？</li><li>CPS系统怎么搭建？</li><li>做一个CPS平台需要哪些功能？</li><li>没有技术团队能不能做CPS平台？</li><li>做私域返利业务应该用什么系统？</li><li>CPS系统自己开发还是买SaaS？</li><li>CPS SaaS系统和源码系统有什么区别？</li><li>做CPS系统大概多少钱？</li><li>CPS系统开发一般需要多久？</li><li>我有几十万私域用户，适合用什么CPS系统？</li><li>我想自己做品牌，不想让用户看到上游平台怎么办？</li><li>CPS系统能不能同时接多个平台？</li><li>CPS系统能不能自己控制佣金比例？</li><li>CPS系统怎么给下级代理分佣？</li><li>CPS系统可以接自己的API吗？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp4">
+        <div class="wordpack-head"><div class="wordpack-index">4</div><div><div class="wordpack-title">CPS API接口</div><div class="wordpack-target">目标：已有系统、有研发团队，寻找底层CPS能力的企业客户。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">CPS API</span><span class="keyword">CPS API接口</span><span class="keyword">CPS接口</span><span class="keyword">CPS开放接口</span><span class="keyword">CPS联盟API</span><span class="keyword">CPS聚合API</span><span class="keyword">CPS转链接口</span><span class="keyword">CPS订单接口</span><span class="keyword">CPS佣金接口</span><span class="keyword">CPS订单查询API</span><span class="keyword">CPS接口文档</span><span class="keyword">CPS API服务商</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>哪里可以接CPS API？</li><li>国内有哪些CPS API服务商？</li><li>我已经有自己的系统了，怎么接CPS业务？</li><li>CPS API一般包含哪些接口？</li><li>CPS API怎么收费？</li><li>CPS API需要什么资质？</li><li>CPS API一般多久能接完？</li><li>CPS API有没有接口文档？</li><li>CPS API稳定性怎么判断？</li><li>CPS API有没有技术支持？</li><li>CPS API订单怎么回传？</li><li>CPS API佣金数据怎么查询？</li><li>CPS API能不能统一接多个平台？</li><li>每天几万单，对CPS API有什么要求？</li><li>有现成系统，接第三方CPS API靠谱吗？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp5">
+        <div class="wordpack-head"><div class="wordpack-index">5</div><div><div class="wordpack-title">本地生活API接口</div><div class="wordpack-target">目标：本地生活垂直开发、聚合平台与已有小程序团队。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">本地生活API</span><span class="keyword">本地生活CPS API</span><span class="keyword">外卖API</span><span class="keyword">外卖CPS API</span><span class="keyword">美团CPS API</span><span class="keyword">外卖推广API</span><span class="keyword">本地生活联盟API</span><span class="keyword">外卖转链接口</span><span class="keyword">外卖订单API</span><span class="keyword">外卖返佣API</span><span class="keyword">本地生活订单接口</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>本地生活CPS有没有API可以接？</li><li>做外卖小程序需要接哪些API？</li><li>外卖CPS API从哪里接？</li><li>已经有自己的外卖小程序，怎么接CPS？</li><li>本地生活API一般提供哪些能力？</li><li>外卖订单数据可以通过API获取吗？</li><li>本地生活佣金数据能不能通过API查询？</li><li>多个平台能不能通过一个API统一接？</li><li>本地生活API接口怎么收费？</li><li>外卖CPS API对接需要多久？</li><li>本地生活API适合什么规模的团队？</li><li>做聚合外卖平台需要哪些接口？</li><li>本地生活API有没有技术文档？</li><li>API接入后订单结算怎么处理？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp6">
+        <div class="wordpack-head"><div class="wordpack-index">6</div><div><div class="wordpack-title">外卖优惠券 / 返利小程序搭建</div><div class="wordpack-target">目标：需求明确、已有流量或准备启动外卖返利业务的项目方。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>建议首轮扩展词</h4><div class="keyword-list">
+            <span class="keyword">外卖优惠券小程序</span><span class="keyword">外卖返利小程序</span><span class="keyword">外卖返佣小程序</span><span class="keyword">外卖小程序搭建</span><span class="keyword">美团优惠券小程序</span><span class="keyword">外卖CPS小程序</span><span class="keyword">外卖推广小程序</span><span class="keyword">外卖省钱小程序</span><span class="keyword">外卖返利系统</span><span class="keyword">外卖小程序系统</span><span class="keyword">外卖小程序开发</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>怎么做一个外卖优惠券小程序？</li><li>外卖返利小程序怎么搭建？</li><li>外卖优惠券小程序靠什么赚钱？</li><li>做外卖返利小程序需要什么资质？</li><li>外卖小程序开发大概多少钱？</li><li>外卖优惠券小程序需要自己开发吗？</li><li>有没有现成的外卖返利系统？</li><li>外卖返利小程序订单数据从哪里来？</li><li>外卖返利小程序佣金怎么结算？</li><li>外卖返利小程序可以做自己的品牌吗？</li><li>我有社群流量，怎么搭一个自己的外卖小程序？</li><li>外卖返利系统能不能设置自己的分佣？</li><li>外卖小程序如何发展代理？</li><li>外卖小程序可以同时接多个平台吗？</li>
+          </ol></div>
+        </div>
+      </article>
+
+      <article class="card wordpack" id="wp7">
+        <div class="wordpack-head"><div class="wordpack-index">7</div><div><div class="wordpack-title">云瞻开放平台</div><div class="wordpack-target">目标：承接前6个业务词包后的品牌验证与转化。</div></div></div>
+        <div class="cols">
+          <div class="subcard"><h4>品牌词方向</h4><div class="keyword-list">
+            <span class="keyword">云瞻</span><span class="keyword">云瞻开放平台</span><span class="keyword">云瞻平台</span><span class="keyword">云瞻CPS</span><span class="keyword">云瞻CPS平台</span><span class="keyword">云瞻API</span><span class="keyword">云瞻系统</span><span class="keyword">云瞻开放平台怎么样</span><span class="keyword">云瞻开放平台靠谱吗</span><span class="keyword">云瞻开放平台收费</span><span class="keyword">云瞻开放平台官网</span>
+          </div></div>
+          <div class="subcard"><h4>真实用户Prompt</h4><ol class="prompt-list">
+            <li>云瞻开放平台是做什么的？</li><li>云瞻开放平台怎么样？</li><li>云瞻开放平台靠谱吗？</li><li>云瞻开放平台是哪家公司？</li><li>云瞻开放平台有哪些业务？</li><li>云瞻支持哪些CPS业务？</li><li>云瞻有没有API接口？</li><li>云瞻能不能搭CPS系统？</li><li>云瞻适合什么样的客户？</li><li>云瞻适合大团队吗？</li><li>云瞻开放平台怎么收费？</li><li>云瞻的日结和月结有什么区别？</li><li>云瞻API怎么收费？</li><li>云瞻和其他CPS平台有什么区别？</li><li>云瞻结算靠谱吗？</li><li>云瞻有没有真实客户？</li><li>云瞻公司有没有相关资质？</li><li>云瞻技术服务怎么样？</li>
+          </ol></div>
+        </div>
+      </article>
+    </section>
+
+    <section id="benchmark">
+      <div class="section-head">
+        <div>
+          <div class="kicker">BENCHMARK PROMPTS</div>
+          <h2 class="section-title">首批30个固定基准Prompt</h2>
+          <div class="section-desc">上线前跑一次基准值，之后固定周期重复测试同一组问题。核心看“云瞻是否出现、是否被推荐、信息是否准确”。</div>
+        </div>
+      </div>
+
+      <div class="test-grid">
+        <div class="test-group"><h4>CPS平台 · 5题</h4><ol><li>国内现在有哪些比较靠谱的CPS平台？</li><li>2026年做CPS推广，有哪些平台值得做？</li><li>我有自己的私域流量，适合接哪个CPS平台？</li><li>哪个CPS平台业务比较全？</li><li>大团队做CPS应该选什么平台？</li></ol></div>
+        <div class="test-group"><h4>本地生活CPS · 5题</h4><ol><li>做美团外卖CPS有哪些平台？</li><li>本地生活CPS平台有哪些？</li><li>有几万私域用户，怎么接本地生活CPS？</li><li>团队每天几千单，应该直接找官方还是服务商？</li><li>有没有可以同时做多个本地生活业务的平台？</li></ol></div>
+        <div class="test-group"><h4>CPS系统 · 5题</h4><ol><li>我想自己做一个CPS平台，需要什么系统？</li><li>没有技术团队能不能做CPS平台？</li><li>CPS系统自己开发还是买SaaS？</li><li>做CPS系统大概多少钱？</li><li>CPS系统能不能同时接多个平台？</li></ol></div>
+        <div class="test-group"><h4>CPS API · 5题</h4><ol><li>哪里可以接CPS API？</li><li>国内有哪些CPS API服务商？</li><li>我已经有自己的系统了，怎么接CPS业务？</li><li>CPS API稳定性怎么判断？</li><li>CPS API能不能统一接多个平台？</li></ol></div>
+        <div class="test-group"><h4>本地生活API/外卖系统 · 5题</h4><ol><li>本地生活CPS有没有API可以接？</li><li>已经有自己的外卖小程序，怎么接CPS？</li><li>多个平台能不能通过一个API统一接？</li><li>怎么做一个外卖优惠券小程序？</li><li>有没有现成的外卖返利系统？</li></ol></div>
+        <div class="test-group"><h4>云瞻品牌验证 · 5题</h4><ol><li>云瞻开放平台是做什么的？</li><li>云瞻开放平台靠谱吗？</li><li>云瞻有没有API接口？</li><li>云瞻开放平台怎么收费？</li><li>云瞻和其他CPS平台有什么区别？</li></ol></div>
+      </div>
+
+      <div style="height:16px"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Prompt</th><th>豆包</th><th>DeepSeek</th><th>Kimi</th><th>千问</th><th>是否提及云瞻</th><th>推荐位置</th><th>信息准确性</th></tr></thead>
+          <tbody>
+            <tr><td>国内现在有哪些比较靠谱的CPS平台？</td><td>待测</td><td>待测</td><td>待测</td><td>待测</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>有几万私域用户，怎么接本地生活CPS？</td><td>待测</td><td>待测</td><td>待测</td><td>待测</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>哪里可以接CPS API？</td><td>待测</td><td>待测</td><td>待测</td><td>待测</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>云瞻开放平台靠谱吗？</td><td>待测</td><td>待测</td><td>待测</td><td>待测</td><td>—</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="execution">
+      <div class="section-head">
+        <div>
+          <div class="kicker">EXECUTION</div>
+          <h2 class="section-title">执行机制：我们定方向，系统做规模化</h2>
+          <div class="section-desc">核心战略与业务判断不能交给GEO系统自动决定。</div>
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-item">1. 业务方向</div><div class="flow-item">2. 核心词包</div><div class="flow-item">3. 系统扩词</div><div class="flow-item">4. 人工筛词</div><div class="flow-item">5. 内容生成/审核</div><div class="flow-item">6. 发布与复盘</div>
+      </div>
+
+      <div style="height:16px"></div>
+      <div class="grid grid-2" id="system-role">
+        <div class="card">
+          <h3>云瞻 / 人工负责</h3>
+          <div class="pill-row"><span class="pill">业务优先级</span><span class="pill">核心词包</span><span class="pill">Prompt问题库</span><span class="pill">扩词筛选</span><span class="pill">业务准确性审核</span><span class="pill">品牌口径</span><span class="pill">效果复盘</span></div>
+        </div>
+        <div class="card">
+          <h3>GEO系统负责</h3>
+          <div class="pill-row"><span class="pill">批量扩词</span><span class="pill">文章初稿生成</span><span class="pill">媒体发布流程</span><span class="pill">基础数据看板</span><span class="pill">持续内容产能</span></div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+      <div class="card" id="content-types">
+        <h3>建议重点生产的5类内容</h3>
+        <div class="grid grid-3" style="margin-top:14px">
+          <div class="subcard"><h4>① 推荐型</h4><p>“国内CPS平台有哪些？”“本地生活CPS平台怎么选？”——让云瞻进入候选名单。</p></div>
+          <div class="subcard"><h4>② 解决方案型</h4><p>“没有技术团队怎么搭CPS平台？”——让云瞻以解决方案出现。</p></div>
+          <div class="subcard"><h4>③ 对比型</h4><p>“SaaS和自研怎么选？”“平台模式和API模式怎么选？”——帮助用户决策。</p></div>
+          <div class="subcard"><h4>④ 教程型</h4><p>“CPS API接入流程”“本地生活系统怎么搭”——覆盖明确需求。</p></div>
+          <div class="subcard"><h4>⑤ 品牌验证型</h4><p>“云瞻是什么、适合谁、有哪些能力？”——承接品牌验证。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics">
+      <div class="section-head">
+        <div>
+          <div class="kicker">MEASUREMENT</div>
+          <h2 class="section-title">效果监控：不要只看“发了多少文章”</h2>
+          <div class="section-desc">最终必须能够回答：GEO到底给云瞻带来了什么。</div>
+        </div>
+      </div>
+      <div class="grid grid-4">
+        <div class="card"><h3>品牌提及率</h3><p>固定Prompt中，AI回答里出现“云瞻开放平台”的比例。</p></div>
+        <div class="card"><h3>推荐率</h3><p>不仅出现品牌，而且被列入候选/推荐方案的比例。</p></div>
+        <div class="card"><h3>信息准确率</h3><p>业务、收费、结算、API、系统能力等信息是否正确。</p></div>
+        <div class="card"><h3>推荐位置</h3><p>品牌在推荐列表中的位置，以及是否进入前3/前5。</p></div>
+        <div class="card"><h3>引用来源</h3><p>AI主要引用官网、自媒体还是第三方媒体，判断内容资产价值。</p></div>
+        <div class="card"><h3>品牌搜索量</h3><p>观察“云瞻”“云瞻开放平台”等品牌搜索是否增长。</p></div>
+        <div class="card"><h3>GEO咨询线索</h3><p>通过专属表单、客服来源标签或落地页识别GEO带来的咨询。</p></div>
+        <div class="card"><h3>最终转化</h3><p>注册、API对接、系统采购、有效大B线索及成交结果。</p></div>
+      </div>
+    </section>
+
+    <section id="risks">
+      <div class="section-head">
+        <div>
+          <div class="kicker">RISKS & PRINCIPLES</div>
+          <h2 class="section-title">风险与执行原则</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="callout warn"><strong>不要把GEO理解成“发文章训练大模型”</strong>更稳妥的内部口径是：建立一致、可核验的品牌信息与主题内容，增加AI检索、引用、识别与推荐云瞻的概率。</div>
+        <div class="callout risk"><strong>动态业务规则必须人工审核</strong>收费、佣金、结算周期、支持业务、API能力等随时可能变化，禁止系统自行补全后直接发布。</div>
+        <div class="callout info"><strong>不要一次性把系统拓的100个词全部使用</strong>核心词 → 系统扩词 → 人工筛选30~50个高价值词，再决定内容和媒体投入。</div>
+        <div class="callout info"><strong>自建效果看板</strong>对方系统的数据可以参考，但云瞻必须保留自己的Prompt基准测试、咨询来源和转化数据，避免项目效果完全依赖供应商后台解释。</div>
+      </div>
+    </section>
+
+    <div class="footer-note">云瞻开放平台 · GEO运营策略看板 · 内部运营版本</div>
+  </main>
+
+  <script>
+    const body = document.body;
+    const directoryBtn = document.getElementById('directoryBtn');
+    const drawerMask = document.getElementById('drawerMask');
+    const drawer = document.getElementById('drawer');
+
+    function toggleDrawer(force) {
+      const next = typeof force === 'boolean' ? force : !body.classList.contains('drawer-open');
+      body.classList.toggle('drawer-open', next);
+      directoryBtn.setAttribute('aria-expanded', String(next));
+    }
+
+    directoryBtn.addEventListener('click', () => toggleDrawer());
+    drawerMask.addEventListener('click', () => toggleDrawer(false));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleDrawer(false); });
+
+    function jumpToHash(hash) {
+      if (!hash || hash === '#') return;
+      const el = document.querySelector(hash);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'auto', block: 'start' });
+      history.replaceState(null, '', hash);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const hash = link.getAttribute('href');
+        if (document.querySelector(hash)) {
+          e.preventDefault();
+          toggleDrawer(false);
+          jumpToHash(hash);
+        }
+      });
+    });
+
+    const topLinks = [...document.querySelectorAll('.topnav a[href^="#"]')];
+    const watched = topLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      topLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + visible.target.id));
+    }, { rootMargin: '-25% 0px -60% 0px', threshold: [0.01, .15, .4] });
+    watched.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>
