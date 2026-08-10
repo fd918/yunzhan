@@ -25,7 +25,6 @@
       --purple-weak: #f5f3ff;
       --shadow: 0 10px 35px rgba(15, 23, 42, 0.06);
       --radius: 18px;
-      --topbar: 66px;
       --max: 1440px;
     }
 
@@ -42,17 +41,13 @@
     a { color: inherit; text-decoration: none; }
 
     .topbar {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: var(--topbar);
-      z-index: 1000;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
+      position: relative;
+      background: #fff;
       border-bottom: 1px solid rgba(226,232,240,.85);
     }
     .topbar-inner {
       width: min(calc(100% - 32px), var(--max));
-      height: 100%;
+      min-height: 74px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -66,18 +61,26 @@
       font-weight: 800;
       letter-spacing: .2px;
     }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #2563eb, #0ea5e9);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 15px;
-      box-shadow: 0 7px 18px rgba(37,99,235,.25);
+    .brand-logo { display:block; width:172px; height:auto; aspect-ratio:2749/789; object-fit:contain; }
+    .brand-sub { color: var(--muted); font-size: 12px; font-weight: 600; white-space:nowrap; }
+    .section-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      margin: 12px 0 28px;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 6px 18px rgba(15,23,42,.06);
     }
-    .brand-sub { color: var(--muted); font-size: 12px; font-weight: 500; margin-left: 2px; }
+    .section-nav-inner {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .section-nav-brand { flex:0 0 auto; color:var(--navy); font-size:14px; font-weight:800; white-space:nowrap; }
     .topnav {
       margin-left: auto;
       display: flex;
@@ -88,33 +91,37 @@
     }
     .topnav::-webkit-scrollbar { display: none; }
     .topnav a, .directory-btn {
+      position: relative;
       border: 0;
       background: transparent;
       color: #475569;
-      padding: 9px 12px;
-      border-radius: 10px;
+      padding: 19px 10px 17px;
       cursor: pointer;
       white-space: nowrap;
-      font-size: 14px;
+      font-size: 13px;
       transition: .18s ease;
     }
-    .topnav a:hover, .topnav a.active, .directory-btn:hover {
-      background: var(--primary-weak);
-      color: var(--primary);
-    }
+    .topnav a::after { content:""; position:absolute; left:10px; right:10px; bottom:0; height:3px; border-radius:3px 3px 0 0; background:var(--primary); transform:scaleX(0); transition:transform .15s ease; }
+    .topnav a:hover, .topnav a.active { color: var(--primary); }
+    .topnav a.active::after { transform:scaleX(1); }
+    .directory-btn:hover { background:var(--primary-weak); color:var(--primary); }
     .directory-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       min-height: 44px;
+      margin: 0 0 0 4px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
       font-weight: 700;
-      margin-left: 4px;
     }
+    .directory-btn[aria-expanded="true"] { border-color:var(--primary); background:var(--primary); color:#fff; }
 
     .drawer-mask { display: none; }
     .drawer {
       position: fixed;
-      top: var(--topbar);
+      top: 0;
       bottom: 0;
       left: 0;
       width: min(340px, 88vw);
@@ -210,9 +217,9 @@
     main {
       width: min(calc(100% - 32px), var(--max));
       margin: 0 auto;
-      padding: calc(var(--topbar) + 28px) 0 72px;
+      padding: 24px 0 72px;
     }
-    section { scroll-margin-top: 86px; margin-bottom: 28px; }
+    section { scroll-margin-top: 76px; margin-bottom: 28px; }
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #173d7a 60%, #0b6aa2 100%);
       color: #fff;
@@ -221,6 +228,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 22px 55px rgba(15,23,42,.16);
+      margin-bottom: 0;
     }
     .hero::after {
       content: "";
@@ -340,11 +348,14 @@
       .flow-item:nth-child(3)::after { display: none; }
     }
     @media (max-width: 760px) {
-      :root { --topbar: 58px; }
-      .topbar-inner { width: min(calc(100% - 18px), var(--max)); }
+      .topbar-inner { width: min(calc(100% - 18px), var(--max)); min-height:64px; }
+      .brand-logo { width:148px; }
       .brand-sub, .topnav a { display: none; }
+      .section-nav { margin:10px 0 20px; }
+      .section-nav-inner { min-height:54px; padding:0 4px; }
+      .section-nav-brand { flex:1; font-size:13px; }
       .directory-btn { margin-left: auto; }
-      main { width: min(calc(100% - 18px), var(--max)); padding-top: calc(var(--topbar) + 16px); }
+      main { width: min(calc(100% - 18px), var(--max)); padding-top:16px; }
       .hero { padding: 28px 22px; border-radius: 20px; }
       .hero h1 { font-size: 30px; }
       .grid-2, .grid-3, .grid-4, .theme-cards, .journey, .test-grid, .flow { grid-template-columns: 1fr; }
@@ -363,7 +374,7 @@
   <!--
     Codex维护说明：
     1. 本页定位为“云瞻开放平台 GEO 运营策略看板”，优先保持现有信息架构、视觉层级和交互方式。
-    2. 顶部导航保持精简；完整目录通过左侧抽屉展开，抽屉为覆盖式，不推动主内容区域。
+    2. 云瞻Logo位于页面左上方；章节导航位于首屏内容下方并保持吸顶，完整目录通过左侧抽屉展开。
     3. 目录选择后保持打开，页面继续正常滚动；页面滚动时目录高亮与当前位置同步。
     4. 后续新增词包、Prompt或数据时，尽量复用现有 .wordpack / .card / table 组件，不重做整体风格。
     5. 本页内容来自云瞻 GEO 项目内部讨论。动态业务规则、收费、佣金、业务支持范围上线前必须人工复核。
@@ -372,18 +383,9 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">GEO</div>
-        <div>云瞻开放平台 <span class="brand-sub">GEO运营策略看板</span></div>
+        <img alt="云瞻" class="brand-logo" height="789" src="./yunzhan-logo.png" width="2749" />
+        <span class="brand-sub">GEO运营策略看板</span>
       </div>
-      <nav class="topnav" aria-label="主导航">
-        <a href="#overview">总览</a>
-        <a href="#strategy">战略架构</a>
-        <a href="#wordpacks">词包</a>
-        <a href="#benchmark">Prompt库</a>
-        <a href="#execution">执行机制</a>
-        <a href="#metrics">指标</a>
-        <button class="directory-btn" id="directoryBtn" type="button" aria-expanded="false">☰ 目录</button>
-      </nav>
     </div>
   </header>
 
@@ -426,6 +428,21 @@
         <span class="hero-badge">发现 → 比较 → 决策 → 验证</span>
       </div>
     </section>
+
+    <header class="section-nav" id="siteNav">
+      <div class="section-nav-inner">
+        <span class="section-nav-brand">GEO运营策略</span>
+        <nav class="topnav" aria-label="主要章节导航">
+          <a href="#overview">总览</a>
+          <a href="#strategy">战略架构</a>
+          <a href="#wordpacks">词包</a>
+          <a href="#benchmark">Prompt库</a>
+          <a href="#execution">执行机制</a>
+          <a href="#metrics">指标</a>
+        </nav>
+        <button class="directory-btn" id="directoryBtn" type="button" aria-expanded="false">☰ 目录</button>
+      </div>
+    </header>
 
     <section>
       <div class="grid grid-4">
@@ -694,6 +711,7 @@
 
   <script>
     const body = document.body;
+    const siteNav = document.getElementById('siteNav');
     const directoryBtn = document.getElementById('directoryBtn');
     const drawer = document.getElementById('drawer');
     const drawerClose = document.getElementById('drawerClose');
@@ -729,7 +747,8 @@
       const el = document.getElementById(id);
       if (!el) return;
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const top = Math.max(0, window.scrollY + el.getBoundingClientRect().top - 82);
+      const navOffset = (siteNav?.offsetHeight || 58) + 12;
+      const top = Math.max(0, window.scrollY + el.getBoundingClientRect().top - navOffset);
       window.scrollTo({ top, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
       history.replaceState(null, '', `#${id}`);
     }
@@ -749,7 +768,7 @@
     let ticking = false;
 
     function updateActiveNavigation() {
-      const marker = 112;
+      const marker = (siteNav?.offsetHeight || 58) + 30;
       let current = watchedTargets[0]?.id;
       for (const target of watchedTargets) {
         if (target.getBoundingClientRect().top <= marker) current = target.id;
