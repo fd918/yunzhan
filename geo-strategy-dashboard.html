@@ -369,6 +369,7 @@
       .drawer, .back-top { transition: none; }
     }
   </style>
+  <link href="./dashboard-navigation.css" rel="stylesheet" />
 </head>
 <body>
   <!--
@@ -440,7 +441,7 @@
           <a href="#execution">执行机制</a>
           <a href="#metrics">指标</a>
         </nav>
-        <button class="directory-btn" id="directoryBtn" type="button" aria-expanded="false">☰ 目录</button>
+        <button class="directory-btn" id="directoryBtn" type="button" aria-expanded="false" aria-label="打开完整目录"><span class="directory-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>目录</span></button>
       </div>
     </header>
 
@@ -734,6 +735,7 @@
       const next = typeof force === 'boolean' ? force : !body.classList.contains('drawer-open');
       body.classList.toggle('drawer-open', next);
       directoryBtn.setAttribute('aria-expanded', String(next));
+      directoryBtn.setAttribute('aria-label', next ? '收起完整目录' : '打开完整目录');
     }
 
     directoryBtn.addEventListener('click', () => toggleDrawer());
@@ -778,7 +780,10 @@
       const activeGroup = groupMap[current] || 'overview';
       topLinks.forEach(link => {
         const id = decodeURIComponent(link.getAttribute('href').slice(1));
-        link.classList.toggle('active', id === activeGroup);
+        const active = id === activeGroup;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
       });
 
       let activeDrawerLink = null;

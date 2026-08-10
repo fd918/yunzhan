@@ -143,6 +143,7 @@
   }
 
 </style>
+<link href="./dashboard-navigation.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="page-brand"><img alt="云瞻" class="page-brand-logo" height="789" src="./yunzhan-logo.png" width="2749"/></div>
@@ -471,7 +472,12 @@
       else break;
     }
     const group = groupMap[current] || 'overview';
-    primaryLinks.forEach(link => link.classList.toggle('active', link.dataset.group === group));
+    primaryLinks.forEach(link => {
+      const active = link.dataset.group === group;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
     let activeDrawerLink = null;
     drawerLinks.forEach(link => {
       const active = link.dataset.target === current;
