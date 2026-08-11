@@ -255,6 +255,16 @@
     return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
   }
 
+  async function validatePassword(value) {
+    return (await hashPassword(value)) === PASSWORD_HASH;
+  }
+
+  window.YunzhanAccessGate = Object.freeze({
+    grantAccess,
+    hasAccess,
+    validatePassword,
+  });
+
   function mountGate() {
     if (hasAccess()) {
       revealPage();
@@ -325,8 +335,8 @@
       submitButton.textContent = "正在验证…";
 
       try {
-        const submittedHash = await hashPassword(passwordInput.value);
-        if (submittedHash !== PASSWORD_HASH) {
+        const isValid = await validatePassword(passwordInput.value);
+        if (!isValid) {
           errorMessage.textContent = "密码不正确，请重新输入。";
           passwordInput.select();
           return;
@@ -347,9 +357,22 @@
     window.requestAnimationFrame(() => passwordInput.focus());
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountGate, { once: true });
-  } else {
+  function startGate() {
+    const reactGate = document.querySelector('[data-yz-react-gate="true"]');
+    if (reactGate) {
+      if (hasAccess()) {
+        reactGate.hidden = true;
+        document.documentElement.classList.remove("yz-access-pending");
+      }
+      return;
+    }
+
     mountGate();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startGate, { once: true });
+  } else {
+    startGate();
   }
 })();
