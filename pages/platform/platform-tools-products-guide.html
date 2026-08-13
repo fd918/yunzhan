@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="汇总云瞻平台工具、转链、公众号小程序搭建、会员版本、代理系统、API、企云和推广大使能力。" />
+  <title>平台工具、产品版本与系统能力指南｜云瞻开放平台内部知识库</title>
+  <script src="../../access-gate.js"></script>
+  <script src="../../knowledge-editor.js" defer></script>
+  <link rel="stylesheet" href="../../knowledge-page.css" />
+</head>
+<body data-pagefind-body>
+  <header>
+    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
+    <div class="knowledge-meta"><span class="knowledge-module">01 平台与业务</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
+    <h1 data-yz-editor-root>平台工具、产品版本与系统能力指南</h1>
+    <p class="knowledge-summary" data-yz-editor-root>按使用场景汇总 AI 素材、链接工具、联盟授权、公众号 / 小程序、会员版本、代理系统、API、企云和推广大使。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《平台功能工具类》，节点最后编辑时间 2026-08-13<br /><strong>整理方式：</strong>按“工具—搭建—产品—系统能力”重组，去除截图文件名和重复销售话术<br /><strong>使用边界：</strong>价格、版本权益、链接有效期和内测状态变化较快，以官网价格页、后台提示和正式合同为准。</div>
+  </header>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#tool">基础工具</a><a href="#convert">转链</a><a href="#build">场景搭建</a><a href="#membership">会员版本</a><a href="#agent">代理系统</a><a href="#api">API</a><a href="#qiyun">企云</a><a href="#ambassador">推广大使</a></nav>
+  <main class="knowledge-content" data-yz-editor-root>
+    <section>
+      <h2 id="tool">一、基础功能工具</h2>
+      <dl class="knowledge-definition"><dt>AI 素材</dt><dd>从云瞻助手获取的文案、图片等可用于本人推广；正式发布前仍需检查平台合规、品牌商标和广告法要求。</dd><dt>MP 链接</dt><dd>从小程序页面复制并处理为 <code>mp://</code> 形式，适合微信内打开；不是官方原链，正式推广前必须测试跟单。</dd><dt>联盟授权</dt><dd>顶部导航【工单·权限】→【权限管理】，可查看美团、阿里、淘宝、京东、唯品会等授权并新增授权账号。</dd><dt>短信</dt><dd>登录验证码、业务通知和部分 H5 场景会消耗短信；余量不足可能影响用户登录和下单。</dd></dl>
+      <p>关闭分佣后仍可能保留分佣记录，用于让用户在【我的订单】看到订单；不希望展示时，需在分佣显示设置中关闭，具体以当前产品页为准。</p>
+      <div class="knowledge-callout warning"><strong>链接有效期待产品确认</strong><p>源文档记录短链 / 长链约 3 个月、海报二维码约 1—3 个月、MP 链约 1 个月、部分口令 2 周或 30 天。该数据只用于排查，不作为保证；以后台显示和实测为准。</p></div>
+    </section>
+    <section>
+      <h2 id="convert">二、转链工具</h2>
+      <p>转链失败时先确认输入是否为官方原始链接或官方原始口令。源文档记录工具支持官方原链、官方原始口令和云瞻短链；其他平台短链、已经二次封装的链接及 <code>mp://</code> 链接通常无法识别。</p>
+      <ol class="knowledge-list"><li>回到渠道获取官方原链。</li><li>重新转链并检查推广位。</li><li>用测试订单验证归因。</li><li>仍失败时携带原链、转换后链接、时间和截图提交工单。</li></ol>
+    </section>
+    <section>
+      <h2 id="build">三、公众号、小程序与业务场景搭建</h2>
+      <ol class="knowledge-list"><li>在【营销工具】→【公众号管理】授权公众号。</li><li>关联用户体系。</li><li>选择业务模板，一键配置并生成场景链接。</li><li>在微信公众平台完成模板消息、隐私权限等配置。</li></ol>
+      <p>一个公众号通常只能授权到一个云瞻账号；接收他人账号时，可在【工单·权限】→【创建工单】提交“账号数据迁移”。综合业务场景的版本要求以当前价格页为准。</p>
+      <h3>小程序因“违规收集手机号”被处罚</h3>
+      <p>先下掉涉及问题的旧模板或插件，改用当前合规模板，核对隐私权限说明和拒绝授权路径后，再按微信平台要求申诉。不得保证申诉一定通过。</p>
+    </section>
+    <section>
+      <h2 id="membership">四、会员版本</h2>
+      <p>版本差异以<a href="https://www.yunzhanxinxi.com/prices.html">官网价格页</a>为准。源文档归纳的付费版本能力包括费率权益、更多业务场景、公众号 / 小程序搭建指导、团队分佣、多种营销工具、版本发布维护和专属售后。</p>
+      <div class="knowledge-callout warning"><strong>不要沿用旧销售数字</strong><p>“免 10% 技术服务费”“日结服务费 3%”“7×13 小时服务”等属于源话术中的版本权益，签约或报价前必须核对官网、合同和用户订单产生时间。</p></div>
+    </section>
+    <section>
+      <h2 id="agent">五、代理系统</h2>
+      <p>代理系统用于搭建自有品牌的推广系统，可授权公众号 / 小程序、配置业务模块、发展代理团队并设置不同等级。与普通会员版本相比，代理系统强调独立品牌、自定义域名、业务模块和更完整的团队管理能力。</p>
+      <p>标准流程：确认产品范围与合同 → 付费开通 → 授权小程序 → 关联用户体系 → 绑定代理系统 → 配置业务和代理等级 → 测试后上线。</p>
+    </section>
+    <section>
+      <h2 id="api">六、API 对接</h2>
+      <p>源文档列出的可对接方向包括霸王餐、快递、电影、大牌点餐、外卖、出行、卡券、电商、同城优惠、本地生活和即时零售，支持全业务或单业务评估。前端页面通常由客户技术团队自行开发。</p>
+      <div class="knowledge-callout warning"><strong>报价待商务确认</strong><p>源文档记录单业务 5,000 元 / 年、选品广场 8,000 元 / 年、全业务 25,000 元 / 年。该信息仅作为历史线索，正式报价必须由商务按当期合同确认。</p></div>
+    </section>
+    <section>
+      <h2 id="qiyun">七、企云</h2>
+      <p>企云定位为企业微信的辅助管理运营工具，可用于客服坐席、客户数据分析和标签管理。源文档记录其仍处于内测、面向部分付费版本试用。</p>
+      <div class="knowledge-callout warning"><strong>状态与价格待确认</strong><p>“旗舰版 2,999 元 / 年”是源文档记录，不直接作为现行报价；开通、取消授权和价格由产品或商务确认。</p></div>
+    </section>
+    <section>
+      <h2 id="ambassador">八、推广大使与群同步规则</h2>
+      <p>推广大使活动需先联系顾问开通权限，直邀奖励以当期活动页为准。源文档 2026-08-05 的群同步信息指出，分佣管理中的“是否实名”设置已不生效，无论自主打款还是平台打款，用户端都需要实名；功能是否已经下线以当前产品页为准。</p>
+    </section>
+  </main>
+  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../rules/promotion-activity-operations-guide.html">查看推广活动指南</a><a href="../sop/link-token-lifecycle.html">查看链接密令 SOP</a></footer>
+  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
+</body>
+</html>

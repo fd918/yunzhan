@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="统一入账、提现、个人所得税实名核验、企业开票和 C 端返现结算的处理口径。" />
+  <title>入账、提现、税务与发票处理手册｜云瞻开放平台内部知识库</title>
+  <script src="../../access-gate.js"></script>
+  <script src="../../knowledge-editor.js" defer></script>
+  <link rel="stylesheet" href="../../knowledge-page.css" />
+</head>
+<body data-pagefind-body>
+  <header>
+    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
+    <div class="knowledge-meta"><span class="knowledge-module">02 业务规则中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
+    <h1 data-yz-editor-root>入账、提现、税务与发票处理手册</h1>
+    <p class="knowledge-summary" data-yz-editor-root>面向客服、财务和平台顾问，统一佣金入账、提现判断、实名核验、企业开票、发票审核和 C 端返现的处理路径。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《提现&amp;税&amp;发票类》，节点最后编辑时间 2026-08-13<br /><strong>政策复核：</strong>国家税务总局公告 2025 年第 16 号及官方解读，2025-10-01 起施行<br /><strong>使用边界：</strong>税务问题按官方政策解释；入账日、门槛、限额、审核时效和服务费按当期财务页面确认。</div>
+  </header>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#posting">入账</a><a href="#withdrawal">提现</a><a href="#tax">个税实名</a><a href="#invoice">企业开票</a><a href="#service-invoice">服务费发票</a><a href="#consumer">C端返现</a></nav>
+  <main class="knowledge-content" data-yz-editor-root>
+    <section>
+      <h2 id="posting">一、佣金入账</h2>
+      <p>佣金完成业务结算入账后才形成可提现余额。源文档记录平台常规入账日为每月 10 日和 23 日，休息日或节假日顺延；不同业务的结算周期不同，最终以业务详情说明为准。</p>
+      <ul class="knowledge-list"><li>入账日当天一般分批处理，不应在零点即判断异常。</li><li>先查业务详情中的结算周期，再核对订单是否已进入可结算状态。</li><li>处理完成后以页面余额、账单状态或短信通知为准。</li></ul>
+      <div class="knowledge-callout warning"><strong>待财务确认</strong><p>固定入账日和当天完成时段属于平台运营口径；如财务规则发生变化，应同步更新本页，客服不得承诺具体到账时刻。</p></div>
+    </section>
+    <section>
+      <h2 id="withdrawal">二、提现判断</h2>
+      <p>可提现金额为 0 时，先检查佣金是否结算入账。入账后通常可发起提现，具体入口、起提金额、单笔上限、月度限额和审核时间以提现页面为准。</p>
+      <div class="knowledge-table-wrap"><table class="knowledge-table"><thead><tr><th>项目</th><th>源文档记录</th><th>知识状态</th></tr></thead><tbody>
+        <tr><td>个人起提</td><td>支付宝 5 元、银行卡 11 元</td><td><span class="knowledge-status pending">待财务确认</span></td></tr>
+        <tr><td>企业起提</td><td>开票提现，无金额门槛</td><td><span class="knowledge-status pending">待财务确认</span></td></tr>
+        <tr><td>个人限额</td><td>每个自然人每月最高 8 万，单次最高 79,500 元</td><td><span class="knowledge-status pending">待财务确认</span></td></tr>
+        <tr><td>人工审核</td><td>源话术记录通常为 3 个工作日，月结与日结自动审核阈值不同</td><td><span class="knowledge-status pending">待财务确认</span></td></tr>
+      </tbody></table></div>
+      <p>需要修改实名、收款主体、线下打款或退款补偿时，按<a href="../sop/identity-payment-approval-sop.html">《实名、收款主体、提现、退款与线下打款审批 SOP》</a>处理。</p>
+    </section>
+    <section>
+      <h2 id="tax">三、个人所得税与实名核验</h2>
+      <div class="knowledge-callout success"><strong>政策已核验</strong><p>《国家税务总局关于互联网平台企业为平台内从业人员办理扣缴申报、代办申报若干事项的公告》（2025 年第 16 号）自 2025-10-01 起施行，要求互联网平台按规定办理扣缴申报，并以可信赖方式核验从业人员身份真实性。</p></div>
+      <p>平台需要实名信息用于扣缴申报和资金安全校验。人脸识别是可信实名核验方式之一；无法完成核验时，不得自行绕过，应转财务确认可用的合规替代流程。</p>
+      <h3>人脸认证失败排查</h3>
+      <ol class="knowledge-list"><li>核对平台实名姓名与身份证信息是否一致。</li><li>核对平台账户手机号是否为本人实名号卡。</li><li>核对提现收款账户实名是否与平台实名一致。</li><li>仍失败时按最小必要原则提交资料，由财务或打款渠道核验；不得在群内公开证件。</li></ol>
+      <h3>个税怎么解释</h3>
+      <p>平台按规定对本平台取得的劳务报酬或服务收入办理预扣申报；用户可在“个人所得税”App 查询，并在年度汇算清缴期按全年实际情况办理退税或补税。具体税率和税额由个人累计收入及税法口径决定，客服不得仅凭单次提现金额承诺税率。</p>
+      <p class="knowledge-note">官方依据：<a href="https://fgk.chinatax.gov.cn/zcfgk/c100012/c5241472/content.html">国家税务总局公告 2025 年第 16 号</a>；<a href="https://fgk.chinatax.gov.cn/zcfgk/c100015/c5241475/content.html">官方政策解读</a>。</p>
+    </section>
+    <section>
+      <h2 id="invoice">四、企业提现与发票审核</h2>
+      <p>源文档记录接受“生产生活服务＊信息技术服务费”或“生产生活服务＊信息服务费”两类发票。实际开票前应以【本次结算信息】的提示为准，按“本次累计开票金额”开具。</p>
+      <ol class="knowledge-list"><li>进入【财务管理】→【账单通知】→【收益记录】。</li><li>在状态列查看打款状态或审核拒绝原因。</li><li>被拒绝时，在操作列选择【修改发票】，修正后重新上传。</li><li>只有审核通过后才进入打款流程。</li></ol>
+      <div class="knowledge-callout warning"><strong>开票类目与时效待确认</strong><p>发票类目、企业打款时效以及专票 / 普票要求可能随财税规则调整，开票前必须以财务页面和财务人员确认为准。</p></div>
+    </section>
+    <section>
+      <h2 id="service-invoice">五、购买功能和技术服务费发票</h2>
+      <p>购买功能或版本后的发票，可在【财务管理】→【交易记录】找到对应项目后申请。技术服务费发票通常随结算账单和提现申请自动提交开票，具体记录在提现或发票页面查看。</p>
+      <p>源文档包含标准版 10% 技术服务费、部分付费版本免除等描述；这不是跨业务统一结论。实际到账差异须按业务规则、用户版本、订单产生时间和结算主体逐项核对。</p>
+    </section>
+    <section>
+      <h2 id="consumer">六、C 端返现与分佣提现</h2>
+      <p>用户提现可由平台垫资打款，也可由推广者在【分佣管理】→【提现设置】选择自主打款。自主打款意味着推广者承担用户打款、税务处理、审核和资金风险责任。</p>
+      <div class="knowledge-callout warning"><strong>费率待确认</strong><p>源文档记录平台垫资打款会扣 7% 税点，并提及代理系统可通过灵活用工渠道报税。执行前必须由财务确认现行费率、合同主体和合规渠道。</p></div>
+      <p>无论平台打款还是自主打款，源文档同步信息显示用户端均需实名；旧的“是否实名”开关可能已不生效，实际以当前产品页面为准。</p>
+    </section>
+  </main>
+  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../sop/identity-payment-approval-sop.html">查看实名支付审批 SOP</a><a href="../troubleshooting/account-identity-handbook.html">查看账号实名手册</a></footer>
+  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
+</body>
+</html>

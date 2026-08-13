@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="统一订单查询、来源判断、佣金激励对账、未跟单、零佣金、预估差异、失效订单和售后退佣处理口径。" />
+  <title>订单、佣金与对账处理手册｜云瞻开放平台内部知识库</title>
+  <script src="../../access-gate.js"></script><script src="../../knowledge-editor.js" defer></script><link rel="stylesheet" href="../../knowledge-page.css" />
+</head>
+<body data-pagefind-body>
+  <header>
+    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
+    <div class="knowledge-meta"><span class="knowledge-module">07 问题处理中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
+    <h1 data-yz-editor-root>订单、佣金与对账处理手册</h1>
+    <p class="knowledge-summary" data-yz-editor-root>将“查不到、对不上、没跟单、佣金低和订单失效”拆成可执行的查询与排查路径。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《订单&amp;对账类》，节点最后编辑时间 2026-08-13<br /><strong>整理方式：</strong>与现有《数据未返回、订单未归因与激励异常排查 SOP》互补，本页侧重客服判断和对账入口<br /><strong>使用边界：</strong>入账日、业务佣金比例、数据返回时效和归因规则均以当期业务详情为准。</div>
+  </header>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#query">订单查询</a><a href="#reconcile">佣金对账</a><a href="#missing">未跟单</a><a href="#commission">佣金异常</a><a href="#invalid">失效退款</a></nav>
+  <main class="knowledge-content" data-yz-editor-root>
+    <section><h2 id="query">一、订单查询入口</h2>
+      <dl class="knowledge-definition"><dt>电脑端</dt><dd>官网左侧【所有订单】→【订单明细】，可查看订单编号、商品、所属业务、付款时间、实付金额等。</dd><dt>手机端</dt><dd>云瞻助手→【收益数据】→【订单明细】。</dd><dt>所属业务</dt><dd>在订单明细的“所属业务”列查看。</dd><dt>订单来源</dt><dd>有推广位时可通过“推广位”列辅助判断；没有事先设置推广位时，目前无法准确还原来源。</dd></dl>
+    </section>
+    <section><h2 id="reconcile">二、佣金与入账对账</h2>
+      <ol class="knowledge-list"><li>在【所有订单】中按结算时间筛选，查看或导出订单结算佣金。</li><li>在【提现】的【收益记录】中查看对应入账金额，点击【账单明细】查看或导出详情。</li><li>按相同业务、结算周期和收款主体比对，不要把“订单完成”与“结算入账”视为同一时点。</li></ol>
+      <p>修改过实名主体后，当前主体页面可能不显示原主体的收益和提现记录，需切换账单视角或由财务核对，不应直接判定为金额丢失。</p>
+    </section>
+    <section><h2 id="missing">三、下单后没有跟单</h2>
+      <ol class="knowledge-list"><li>先查业务详情中的数据返回时效；标注实时返回的业务一般仍需等待数分钟。</li><li>超过时效后核对用户是否中途退出、点击其他人链接、更换下单端或不符合活动规则。</li><li>仍无法判定时，收集脱敏订单标识、业务、下单时间、推广位、链接/密令和异常截图，按数据订单排查 SOP 升级。</li></ol>
+    </section>
+    <section><h2 id="commission">四、零佣金、低佣金和预估差异</h2>
+      <h3>订单显示 0 或 0.01</h3><p>可能是商家未开通 CPS、业务仅返回基础跟单数据，或用户没有使用链接内领取的优惠。原文中的具体比例属易变业务口径，必须以订单对应活动详情为准。</p>
+      <h3>预估佣金与实际佣金不同</h3><p>佣金通常以最终实付金额乘以对应比例计算。加购或转链阶段可能以商品原价预估；使用优惠、选择不同规格或部分退款后，实付基数改变，佣金会同比变化。</p>
+    </section>
+    <section><h2 id="invalid">五、失效订单和售后退佣</h2>
+      <p>常见失效原因包括提交后未付款、订单取消和官方风控。付款为 0、佣金为 0 的京东失效订单，需先核对是否实际未付款后取消。</p>
+      <p>电商订单在质保或售后期发生退货时，即使佣金已提现，上游确认退货后仍可能在后续结算中冲减相应金额。对外不承诺“提现后不会追回”。</p>
+      <div class="knowledge-callout"><strong>相关 SOP</strong><p>超过数据时效、批量丢单、佣金大幅偏差或入账差异，转《数据未返回、订单未归因与激励异常排查 SOP》处理。</p></div>
+    </section>
+  </main>
+  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../sop/data-order-troubleshooting-sop.html">查看数据订单排查 SOP</a></footer>
+  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
+</body></html>
