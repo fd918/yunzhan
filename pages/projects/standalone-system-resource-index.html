@@ -21,32 +21,56 @@
   <main class="knowledge-content" data-yz-editor-root>
     <section>
       <h2 id="overview">一、产品定位与处理入口</h2>
-      <p>闲鱼电影票系统用于协助店铺完成用户咨询、截图识别、自动报价、订单创建、出票和取票码发送。客服处理问题时，先在【订单管理】查看订单状态和失败原因，再区分渠道出票、报价配置、客户端在线和闲鱼账号状态。</p>
+      <article class="knowledge-faq"><h3 id="system-definition">闲鱼电影票系统是什么？</h3><p>用于协助店铺完成用户咨询、截图识别、自动报价、订单创建、出票和取票码发送。客服处理问题时，先在【订单管理】查看订单状态和失败原因，再区分渠道出票、报价配置、客户端在线和闲鱼账号状态。</p></article>
+      <article class="knowledge-faq"><h3 id="course-operation">课程教什么，购买后怎么操作？</h3><p>源文档记录购买系统后提供详细教程，用户准备可用闲鱼账号即可开始配置。具体课程目录、服务周期和是否包含远程搭建，以购买页和交付清单为准。</p></article>
       <div class="knowledge-callout warning"><strong>宣传边界</strong><p>不得承诺“躺赚”、固定折扣、固定利润、固定出票率或“保证学会”。源文档中的销售表述只作为历史话术线索，不进入现行承诺。</p></div>
     </section>
     <section>
       <h2 id="quote">二、报价、识别与出票</h2>
       <dl class="knowledge-definition"><dt>加价报价</dt><dd>在渠道预估出票价上增加固定金额，并可设置成交价上限；适合不熟悉不同院线价格的用户。</dd><dt>专业报价</dt><dd>可按省市、院线、影院、影厅、影片、座位和日期等因素配置，适合有票务经验和自有资源的用户。</dd><dt>截图识别错误</dt><dd>先确认座位与场次信息是否完整；可人工创建订单，或提交原图、识别结果和错误信息给客服。</dd><dt>出票失败</dt><dd>在【订单管理】查看失败原因，核对开场时间、渠道状态和价格上限；自动退款规则在后台设置中确认。</dd></dl>
       <ul class="knowledge-list"><li>报价前确认影院、场次、座位和张数，一个订单的可识别座位数以当前系统限制为准。</li><li>手动出票时先向买家确认完整信息，报价并收款后再创建订单。</li><li>出票时效和进价折扣受影院、场次和渠道影响，不向用户承诺固定分钟数或固定折扣。</li></ul>
+      <article class="knowledge-faq"><h3 id="price-advantage">报价比别的店铺高怎么办？</h3><p>先核对影院、场次、座位、票种和比较时间是否一致。源文档强调系统整合多渠道实时价格，但不得使用虚假低价、不出票再退款的方式换取询单；需要更激进价格时应通过合规报价规则控制，同时设置亏损上限。</p></article>
+      <article class="knowledge-faq"><h3 id="quote-mode">预估价、一口价和专业报价怎么选？</h3><p>原文推荐日常优先预估价，一口价适合节假日等价格波动较大的高峰场景；专业报价适合能按地区、影院、影厅、影片、座位和工作日精细配置的运营者。</p></article>
+      <article class="knowledge-faq"><h3 id="recognition-limit">电影截图识别不全怎么办？</h3><p>先检查截图中场次、座位信息是否完整。原文记录单订单最多四个座位，多座位场景建议分开下单；识别错误时可人工建单，或把不含用户隐私的截图和错误结果提交客服。</p></article>
+      <article class="knowledge-faq"><h3 id="ticket-failure">出票不成功会自动退款吗？</h3><p>先在【订单管理】查看失败原因，常见因素包括距开场太近、渠道无票和限价不足。是否自动退款取决于后台退款设置和订单状态，不在未核实前承诺。</p></article>
+      <article class="knowledge-faq"><h3 id="manual-ticket">如何手动帮客户买票？</h3><p>向买家确认影院、场次、座位和张数，给出最终报价；买家同意并完成付款后，再在系统手动创建订单。</p></article>
     </section>
     <section>
       <h2 id="client">三、客户端在线与消息同步</h2>
       <p>自动回复和订单处理依赖客户端持续在线。网络中断、电脑关机、服务器异常、关键词未命中或客服 ID 绑定错误，都可能导致消息不同步或不回复。</p>
       <ol class="knowledge-list"><li>确认客户端正常运行且网络稳定。</li><li>核对客服 ID 与对应店铺绑定关系。</li><li>核对商品关键词和自动回复规则是否覆盖用户提问。</li><li>重新关联后重启客户端，再用非系统店铺账号做真实消息测试。</li></ol>
+      <article class="knowledge-faq"><h3 id="message-not-sync">消息没有同步或不自动回复怎么办？</h3><p>检查客户端是否掉线、初语客服 ID 是否绑定正确店铺、关键词是否命中。两个同时运行本系统的店铺互相发消息时，源文档记录不会触发自动回复；应使用普通测试账号验证。</p></article>
+      <article class="knowledge-faq"><h3 id="dialog-incomplete">右侧闲鱼订单提示“内容填写不完整”怎么办？</h3><p>先确认已经选择具体用户聊天对话框，再检查订单必填字段。</p></article>
+      <article class="knowledge-faq"><h3 id="reply-speed">系统正常多久回复？</h3><p>源文档记录常见为 1–3 秒，但实际受网络、客户端负载、关键词匹配和闲鱼接口状态影响，不作为稳定时效承诺。</p></article>
+      <article class="knowledge-faq"><h3 id="always-online">电脑需要长期挂机吗？</h3><p>需要客户端保持运行和网络在线。若需无人值守，应使用稳定电脑或服务器，并建立掉线巡检和告警。</p></article>
       <div class="knowledge-callout warning"><strong>软件安全</strong><p>安装被系统拦截时，不指导用户关闭杀毒软件或删除安全中心。应先核验安装包来源和签名，使用官方最新版，并由技术排查兼容性。</p></div>
     </section>
     <section>
       <h2 id="account">四、账号、店铺与授权</h2>
       <ul class="knowledge-list"><li>同一后台可管理多个店铺，具体授权数量和席位费用以合同及后台为准。</li><li>源文档建议单台电脑同时运行不超过 3 个客户端；服务器可运行数量取决于 CPU、内存和实际负载。</li><li>授权时长可在同一后台账号下的店铺间转移，支持的最短时长和次数以当前产品功能为准。</li><li>频繁切换账号或登录环境可能触发闲鱼安全认证；不得尝试绕过平台验证。</li></ul>
+      <article class="knowledge-faq"><h3 id="product-inventory">能上架几个商品？</h3><p>源文档记录未开鱼小铺时单商品库存通常只能为 1，被拍下后下架，但可发布多个商品；开通鱼小铺后单商品可设置多个库存。以闲鱼当前规则为准。</p></article>
+      <article class="knowledge-faq"><h3 id="multiple-shops">如何添加多个闲鱼账号？</h3><p>可在网页重新下载独立客户端目录，使用同一后台账号登录新的闲鱼店铺，成功登录后后台自动添加。授权席位是否收费以合同为准；源文档的“499 元/席位”为历史价格。</p></article>
+      <article class="knowledge-faq"><h3 id="device-capacity">一台电脑或服务器能运行几个账号？</h3><p>源文档建议单台电脑不超过 3 个；服务器需按配置评估，2 核常见 1–2 个，运行 3 个建议至少 2 核 4G 或 4 核 4G。正式容量应以压测和实际负载为准。</p></article>
+      <article class="knowledge-faq"><h3 id="duration-transfer">授权时长可以转移吗？</h3><p>源文档记录同一后台账号的两个店铺间可多次转移，支持 90、30、7 天三种时长且不额外收费；当前可选时长以后台为准。</p></article>
+      <article class="knowledge-faq"><h3 id="security-slider">为什么出现滑块或掉线？</h3><p>频繁切换账号、设备或登录环境容易触发闲鱼安全认证。保持稳定环境、减少切换并按官方提示完成验证；不得绕过安全认证。</p></article>
+      <article class="knowledge-faq"><h3 id="other-tools">使用本系统后还能用其他闲鱼工具吗？</h3><p>源文档记录可与其他工具并存，后台也支持部分卡券自动发货。但同时接管消息、订单或发货的工具可能冲突，上线前必须用测试店铺验证。</p></article>
     </section>
     <section>
       <h2 id="fund">五、充值、收款与退款</h2>
       <p>预充余额入口在系统【个人中心】→【余额充值】。充值后按页面要求及时回填交易单号；超过有效时间或未到账时转客服人工核对，群内不得公开支付账号、身份证、银行卡等信息。</p>
       <ul class="knowledge-list"><li>停止推广需要退余额时，使用当期正式退款登记入口，到账时效以财务确认结果为准。</li><li>闲鱼订单款通常在买家确认收货后进入对应收款账户；自动确认时间以闲鱼平台规则为准。</li><li>系统余额、营销工具余额和供应渠道资金必须分开核对，不混用退款入口。</li></ul>
+      <article class="knowledge-faq"><h3 id="balance-recharge">预充余额在哪里充值，多久到？</h3><p>【个人中心】→【余额充值】。源文档要求充值后 20 分钟内把交易单号回填后台，成功回填通常很快到账；超时无法自助处理时转客服人工核对。</p></article>
+      <article class="knowledge-faq"><h3 id="balance-refund">不推广了，余额能退吗？</h3><p>源文档支持申请退余额，通过当期正式登记表提交。不要在公开群发送收款账号或身份资料。</p></article>
+      <article class="knowledge-faq"><h3 id="order-payment">电影票订单款到哪里、什么时候到账？</h3><p>源文档记录买家确认收货后进入店铺对应支付宝；验票但未确认收货时不会立即到账。最终按闲鱼当前结算规则。</p></article>
+      <article class="knowledge-faq"><h3 id="recharge-invoice">充值可以对公、可以开票吗？</h3><p>历史口径为个人或企业支付宝均可充值，但出票供应方不提供发票；顾客需要票务发票可咨询影院。企业财务处理前应再次确认当期主体和发票政策。</p></article>
     </section>
     <section>
       <h2 id="operations">六、运营活动与合规边界</h2>
       <p>鱼小铺、超级擦亮、返点和“放心充”等均受闲鱼官方资格、代理商政策及账号状态影响。源文档包含旧的充值门槛、返点比例、税点、席位价格和开通条件，全部标记为待产品与财务确认。</p>
+      <article class="knowledge-faq"><h3 id="super-highlight">超级擦亮怎么开通和充值？</h3><p>源文档流程为先通过合作渠道开通鱼小铺，再申请超级擦亮授权和充值。涉及代理商收款、账号会员名、手机号及返点资料时，必须走内部安全表单和正式收款账户，不能在群聊公开。</p></article>
+      <article class="knowledge-faq"><h3 id="rebate-policy">超级擦亮返点是多少？</h3><p>旧文档记录月消耗 100–5,000 元返 25%、5,000 元以上返 30%，另扣 6 个税点，次月 5–10 日结算；此政策高度易变，仅作为历史记录，执行前必须取得产品与财务书面确认。</p></article>
+      <article class="knowledge-faq"><h3 id="trust-recharge">系统包含闲鱼放心充吗？</h3><p>不包含。源文档认为该能力需店铺自行缴纳闲鱼保证金并在闲鱼申请，合作方不能代开。</p></article>
+      <article class="knowledge-faq"><h3 id="chat-violation">聊天被判违规引导怎么办？</h3><p>检查自动回复中的外部联系方式、昵称@、二维码和引导词，删除可能触发平台规则的内容后再测试。不得通过变体文本规避风控。</p></article>
       <div class="knowledge-callout warning"><strong>禁止不合规运营</strong><p>不得用虚假低价、不出票、诱导确认收货、规避平台风控或收集超出必要范围的个人信息来提高权重。账号申诉和授权必须按闲鱼官方流程操作。</p></div>
       <p><a href="https://dvuwvdqc60.feishu.cn/wiki/IVkGw3sFBiIulVkuUQPcCLikn6f">打开飞书《闲鱼电影票系统 QA》源文档</a></p>
     </section>

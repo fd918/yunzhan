@@ -1,72 +1,37 @@
-<!DOCTYPE html>
-<html lang="zh-CN" id="top">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="统一业务取链、推广方式、活动选择、激励核对、密令申请和美团授权的操作口径。" />
-  <title>业务推广、活动与授权操作指南｜云瞻开放平台内部知识库</title>
-  <script src="../../access-gate.js"></script>
-  <script src="../../knowledge-editor.js" defer></script>
-  <link rel="stylesheet" href="../../knowledge-page.css" />
-</head>
-<body data-pagefind-body>
-  <header>
-    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
-    <div class="knowledge-meta"><span class="knowledge-module">02 业务规则中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
-    <h1 data-yz-editor-root>业务推广、活动与授权操作指南</h1>
-    <p class="knowledge-summary" data-yz-editor-root>将取链、推广、活动选择、激励判断、密令申请、美团授权及酒店业务处理整理成一条可执行路径。</p>
-    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《业务推广活动&amp;规则类》，节点最后编辑时间 2026-08-13<br /><strong>整理方式：</strong>去除重复话术，合并已有合规规则和链接 SOP，只保留可执行判断<br /><strong>使用边界：</strong>佣金、活动门槛、链接有效期和密令申请条件会变化，必须以后台活动详情及当期通知为准。</div>
-  </header>
-  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#start">取链推广</a><a href="#campaign">活动选择</a><a href="#incentive">激励规则</a><a href="#token">密令申请</a><a href="#meituan">美团授权</a><a href="#hotel">酒店业务</a></nav>
-  <main class="knowledge-content" data-yz-editor-root>
-    <section>
-      <h2 id="start">一、取链与推广方式</h2>
-      <p>进入微信小程序“云瞻助手”，使用注册手机号登录，选择目标业务后获取链接。电脑端可在【业务推广】→【生活推广】→【本地生活 CPS】查看活动佣金、详情说明和归因规则。</p>
-      <div class="knowledge-grid">
-        <article class="knowledge-card"><h3>个人直接推广</h3><p>从平台免费取链，适合个人或小规模推广。</p></article>
-        <article class="knowledge-card"><h3>公众号 / 小程序</h3><p>适合个体户和企业，可结合企微、场景搭建和团队分佣。</p></article>
-        <article class="knowledge-card"><h3>API / 插件 / 代理系统</h3><p>适合有技术团队、已有品牌载体或代理团队的推广者。</p></article>
-      </div>
-      <div class="knowledge-callout warning"><strong>费率待确认</strong><p>源文档包含“标准版 10% 技术服务费、部分付费版本或对接方式可免”等话术。具体费率必须按业务、版本、实名主体和当期结算规则确认，不作为全平台统一口径。</p></div>
-      <h3>推广红线</h3>
-      <p>不得在官方平台站内违规引流、炸群、购买或使用“站内粉 / 截流粉”，不得使用“免费、免单、0 元购”等违规或夸大宣传。美团、淘宝闪购和京东的详细禁用场景见<a href="promotion-compliance-rules.html">《推广合规与风险规则》</a>。</p>
-    </section>
-    <section>
-      <h2 id="campaign">二、活动与链接怎么选</h2>
-      <ul class="knowledge-list">
-        <li>先比对活动名称、活动页面、佣金政策和详情说明；同一业务的多个链接可能对应不同页面和结算政策。</li>
-        <li>业务下架或暂不可用时，以后台当前可见状态为准，新业务上线以交流群正式通知为准。</li>
-        <li>链接打不开时，依次检查中间页封禁、链接是否过期、口令是否复制完整、手机显示和推广位；重新取链后先做一笔测试跟单。</li>
-      </ul>
-      <p>链接失效、白名单、PID、换链和数据验证的完整流程见<a href="../sop/link-token-lifecycle.html">《链接、密令与推广物料全生命周期 SOP》</a>。</p>
-    </section>
-    <section>
-      <h2 id="incentive">三、活动激励判断</h2>
-      <p>激励规则随活动变化。以源文档列举的美团外卖节为例，通常要同时满足有效核销、最低实付、订单状态和活动质量门槛；取消、退款、风控或失效订单不计入。</p>
-      <div class="knowledge-callout warning"><strong>示例不是长期规则</strong><p>“订单金额不少于 1 元”“下单率建议不低于 6%”仅是原文活动示例。客服答复前须打开当期活动详情，核对生效日期、订单范围、核销状态和门槛。</p></div>
-    </section>
-    <section>
-      <h2 id="token">四、密令申请与续期</h2>
-      <p>密令申请入口和有效期以后台【密令管理】为准。申请前准备对应业务的订单截图或后台数据，由平台顾问核对是否满足当期门槛。</p>
-      <div class="knowledge-table-wrap"><table class="knowledge-table"><thead><tr><th>业务</th><th>源文档记录</th><th>当前处理</th></tr></thead><tbody>
-        <tr><td>美团</td><td>首个可申请；第二个需近 2 日外卖订单大于 10 单</td><td><span class="knowledge-status pending">待业务确认</span></td></tr>
-        <tr><td>淘宝闪购</td><td>近一周订单大于 200 单</td><td><span class="knowledge-status pending">待业务确认</span></td></tr>
-        <tr><td>京东</td><td>近 2 日外卖订单大于 10 单</td><td><span class="knowledge-status pending">待业务确认</span></td></tr>
-      </tbody></table></div>
-      <p>源文档记录有效期通常约 30 天，部分业务可在到期前或到期后申请续期，但生效可能有时间差；一律以后台显示和短信通知为准。</p>
-    </section>
-    <section>
-      <h2 id="meituan">五、美团 OpenID 授权</h2>
-      <p>授权用于按美团联盟要求获取一次 OpenID，识别推广者身份并完成备案，不等于登录美团账号。平台不应因此获得资金、借款或账号操作权限，营业执照和法人信息不能替代该授权。</p>
-      <ul class="knowledge-list"><li>推广美团相关业务前按页面提示完成授权。</li><li>授权后建议重新获取美团相关业务链接并测试跟单。</li><li>遇到隐私疑问时只解释授权范围，不承诺超出协议或系统能力的事项。</li></ul>
-    </section>
-    <section>
-      <h2 id="hotel">六、酒店业务</h2>
-      <p>源文档记录部分需要报备的美团酒店业务暂不开放新权限；后台没有报备提示的活动可按页面正常取链。不可用时可建议用户查看飞猪酒店、同程酒店或酒店集合页等当前可用业务。</p>
-      <div class="knowledge-callout warning"><strong>时效性提醒</strong><p>酒店权限开放状态可能随渠道调整，答复前必须查看后台，不将“暂不开放”表述为永久规则。</p></div>
-    </section>
-  </main>
-  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="promotion-compliance-rules.html">查看推广合规规则</a><a href="../sop/link-token-lifecycle.html">查看链接密令 SOP</a></footer>
-  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
-</body>
-</html>
+<!DOCTYPE html><html lang="zh-CN" id="top"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="取链推广、推广方式、佣金归因、活动选择、激励、密令、美团授权与酒店业务的完整操作指南。" /><title>业务推广、活动与授权操作指南｜云瞻开放平台内部知识库</title><script src="../../access-gate.js"></script><script src="../../knowledge-editor.js" defer></script><link rel="stylesheet" href="../../knowledge-page.css" /></head>
+<body data-pagefind-body><header><a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a><div class="knowledge-meta"><span class="knowledge-module">02 业务规则中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div><h1 data-yz-editor-root>业务推广、活动与授权操作指南</h1><p class="knowledge-summary" data-yz-editor-root>完整覆盖业务取链、五类推广方式、佣金和归因查询、链接异常、活动与激励、密令申请、美团 OpenID 授权及酒店替代方案。</p><div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《业务推广活动&amp;规则类》，节点最后编辑时间 2026-08-13<br /><strong>完整度：</strong>原文全部主题已纳入；合规红线保留摘要并链接到专项规则页<br /><strong>使用边界：</strong>费用、佣金、有效期和申请门槛变化频繁，带数字内容均须用后台复核。</div></header>
+<nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#start">取链推广</a><a href="#campaign">活动选择</a><a href="#incentive">激励规则</a><a href="#token">密令申请</a><a href="#meituan">美团授权</a><a href="#hotel">酒店业务</a></nav>
+<main class="knowledge-content" data-yz-editor-root>
+  <section><h2 id="start">一、取链、推广方式、佣金与归因</h2>
+    <article class="knowledge-faq"><h3 id="get-link">业务怎么取链？</h3><p>进入“云瞻助手”小程序，使用注册手机号登录，选择要推广的业务并获取链接。电脑端可在【业务推广】→【生活推广】→【本地生活 CPS】查看活动列表。</p></article>
+    <article class="knowledge-faq"><h3 id="promotion-modes">业务可以怎么推广？</h3><div class="knowledge-table-wrap"><table class="knowledge-table"><thead><tr><th>方式</th><th>适用场景</th><th>原文重点</th></tr></thead><tbody><tr><td>直接取链</td><td>个人、小规模推广</td><td>无需搭建系统，费用按当前版本规则</td></tr><tr><td>公众号 / 小程序</td><td>个体户、企业、私域</td><td>可结合企微和团队分佣</td></tr><tr><td>API 对接</td><td>有技术团队和自有前端</td><td>付费获取接口，自行开发页面</td></tr><tr><td>插件对接</td><td>已有网站、App 或小程序品牌</td><td>需相应系统与技术能力</td></tr><tr><td>代理系统</td><td>有代理团队、需要分级佣金</td><td>可配置不同代理等级和业务模块</td></tr></tbody></table></div></article>
+    <article class="knowledge-faq"><h3 id="service-fee">推广会收取哪些费用？</h3><p>源文档曾使用“直接取链收 10% 技术服务费，部分付费版本/API/插件可免”等旧话术。现行费用还会受业务、版本、个人/企业实名和结算方式影响，不得把旧数字作为全平台承诺；应查询当前版本页和对应业务结算规则。</p></article>
+    <article class="knowledge-faq"><h3 id="commission-path">某个业务佣金是多少？</h3><p>进入【业务推广】→【生活推广】→【本地生活 CPS】，活动卡片会显示佣金；打开“详情说明”查看更具体的规则。不得仅凭历史群消息答复。</p></article>
+    <figure class="knowledge-figure" data-pagefind-ignore><a href="../../knowledge-assets/feishu/promotion-commission-entrance.png" target="_blank" rel="noreferrer"><img src="../../knowledge-assets/feishu/promotion-commission-entrance.png" loading="lazy" alt="业务推广本地生活CPS活动列表和佣金查询入口" /></a><figcaption>源文档截图：佣金和活动详情查询入口。截图中的比例、日期只代表截图当时页面，当前答复以实时后台为准。</figcaption></figure>
+    <article class="knowledge-faq"><h3 id="attribution-path">某个业务的归因逻辑是什么？</h3><p>同一路径进入活动卡片的“详情说明”，查看该活动归因规则。不同活动可能采用不同有效期、最后点击或授权条件，不能用一个业务的规则推断另一个。</p></article>
+    <article class="knowledge-faq"><h3 id="link-failure">链接打不开怎么办？</h3><ol class="knowledge-list"><li>中间页可能被举报或被腾讯封禁：重新取链并先小范围测试。</li><li>链接可能超过有效期：更换推广位重新取链。</li><li>手机端黑屏或显示不全：尝试横屏或网页版本。</li><li>口令复制不完整：重新完整复制，不要误用剪切造成字符缺失。</li></ol><p>源文档提到 H5 常见有效期约 30 天，该期限仅作排查提示，最终以后台当前显示为准。</p></article>
+    <article class="knowledge-faq"><h3 id="business-offline">业务下架或想新增业务怎么办？</h3><p>可推广范围以后台当前可见活动为准；新品上线关注交流群通知。希望平台对接某活动时，先向用户收集正式活动链接，再由商务核实渠道和接入条件。</p></article>
+    <article class="knowledge-faq"><h3 id="compliance">推广红线有哪些？</h3><p>禁止官方平台站内违规引流、炸群、购买“站内粉/截流粉”，禁止“免费、免单、0 元购”等违规或夸大宣传。美团私域引流、淘宝闪购品牌素材及超低价表述、京东评论区和商品页引流等专项限制见<a href="promotion-compliance-rules.html">《推广合规与风险规则》</a>。</p></article>
+  </section>
+  <section><h2 id="campaign">二、活动和链接怎么选择</h2>
+    <article class="knowledge-faq"><h3 id="identify-campaign">这个链接对应什么活动？</h3><p>取链时核对活动名称和活动页面；名称、页面和规则一致时才可判断为同一活动。无法确认时将链接提交客服核查。</p></article>
+    <article class="knowledge-faq"><h3 id="multiple-campaigns">同一个业务有多个活动，应该推哪个？</h3><p>多个链接可能对应不同活动页面、佣金政策、适用人群和归因规则。先逐一打开详情说明，按推广对象和渠道选择，不默认推荐佣金数字最高但限制不匹配的链接。</p></article>
+  </section>
+  <section><h2 id="incentive">三、活动激励怎么判断</h2>
+    <article class="knowledge-faq"><h3 id="incentive-rule">激励订单要满足什么条件？</h3><p>以源文档的美团外卖节为例，需要核对有效核销金额、订单状态、排除商品、单量/转化门槛；取消、退款、风控等失效订单通常不计入。原文中的“实付不少于 1 元”“下单率建议不低于 6%”只是历史活动示例，必须打开当期活动规则。</p></article>
+    <article class="knowledge-faq"><h3 id="incentive-reconcile">如何核对激励？</h3><p>在【所有订单】筛选活动日期和所属业务，下载明细，按有效核销、失效状态、活动排除项和最低实付逐条筛选，再与激励看板或结算通知比对。</p></article>
+  </section>
+  <section><h2 id="token">四、密令申请、有效期和续期</h2>
+    <article class="knowledge-faq"><h3 id="token-apply">有哪些密令，怎么申请？</h3><p>源文档记录美团、京东可申请首个密令，追加密令或淘宝闪购密令需要近期订单达标并提交截图。历史门槛包括“美团/京东近 2 日外卖订单大于 10 单”“淘宝闪购近一周大于 200 单”，目前统一标记为待业务确认。</p></article>
+    <article class="knowledge-faq"><h3 id="token-renew">密令多久到期，怎么续期？</h3><p>进入【密令管理】查看有效期并申请续期。源文档记录常见有效期约 30 天、美团可能在到期前 7 天且近 30 单达标时申请，但官方也可能到期后才处理，存在时间差；以后台状态和短信通知为准。</p></article>
+  </section>
+  <section><h2 id="meituan">五、美团 OpenID 授权</h2>
+    <article class="knowledge-faq"><h3 id="authorization-purpose">授权做什么？为什么必须授权？</h3><p>这是美团联盟要求的推广者备案，一次性获取美团 OpenID，用于识别推广身份并对应推广订单，不是登录美团账号。推广美团相关业务时按页面提示完成，营业执照或法人信息不能替代 OpenID 授权。</p></article>
+    <article class="knowledge-faq"><h3 id="authorization-privacy">会读取资金、借款或隐私数据吗？</h3><p>源文档口径为：平台只作为备案通道，不获得登录、资金、借款或账号操作权限。客服应基于当前授权协议解释可访问范围，不使用“绝对不存在风险”等超范围承诺。</p></article>
+    <article class="knowledge-faq"><h3 id="authorization-cancel">授权后怎么取消，是否需要重新取链？</h3><p>原文将其描述为 OpenID 备案而非持续绑定。完成授权后，为避免旧链路不满足新备案要求，建议重新获取全部美团相关业务链接并测试跟单。</p></article>
+  </section>
+  <section><h2 id="hotel">六、酒店业务</h2>
+    <article class="knowledge-faq"><h3 id="meituan-hotel">美团酒店能推广吗？</h3><p>源文档记录：需要报备的部分美团酒店活动暂不开放新权限；没有报备提示的活动可正常取链。该状态随渠道变化，必须先看后台。</p></article>
+    <article class="knowledge-faq"><h3 id="hotel-alternative">没有权限时可替代什么？</h3><p>可查看当前后台的飞猪酒店、同程酒店、酒店集合页等无需相同报备的活动。替代推荐前仍要核对佣金、可推广范围和结算周期。</p></article>
+  </section>
+</main><footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="promotion-compliance-rules.html">查看推广合规规则</a><a href="../sop/link-token-lifecycle.html">查看链接密令 SOP</a></footer><a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a></body></html>
