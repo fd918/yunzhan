@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="汇总独立售卖与业务系统相关的飞书知识源文档入口和适用范围。" />
+  <meta name="description" content="汇总闲鱼电影票独立售卖系统的产品定位、报价出票、客户端、账号、充值退款和故障处理知识。" />
   <title>独立售卖系统资料索引｜云瞻开放平台内部知识库</title>
   <script src="../../access-gate.js"></script>
   <script src="../../knowledge-editor.js" defer></script>
@@ -14,14 +14,47 @@
     <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
     <div class="knowledge-meta"><span class="knowledge-module">10 项目中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
     <h1 data-yz-editor-root>独立售卖系统资料索引</h1>
-    <p class="knowledge-summary" data-yz-editor-root>集中管理独立售卖和业务系统的源知识入口；本页只做索引，不复制仍在持续维护的大篇幅系统问答。</p>
-    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《【单独售卖系统相关 QA】》，节点最后编辑时间 2026-08-13<br /><strong>整理边界：</strong>两个下级文档不在用户本批次提供的 7 个链接内，本次保留直达入口，正文内容待后续单独导入。</div>
+    <p class="knowledge-summary" data-yz-editor-root>集中管理独立售卖系统知识，并将《闲鱼电影票系统 QA》的产品、报价、出票、客户端、账号和资金问题整理成可检索处理手册。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容来源：</strong>飞书文档《【单独售卖系统相关 QA】》及其下级文档《闲鱼电影票系统 QA》《返利机器人教程指南》<br /><strong>整理方式：</strong>沿父文档索引继续读取下级节点，去除个人信息收集项、收款账号、演示店铺链接和不安全的软件处理话术<br /><strong>使用边界：</strong>价格、出票率、时效、席位、充值、退款、返点和闲鱼平台规则均以当期产品后台及正式通知为准。</div>
   </header>
-  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#movie">闲鱼电影票</a><a href="#robot">返利机器人</a><a href="#maintain">维护规则</a></nav>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#overview">产品定位</a><a href="#quote">报价出票</a><a href="#client">客户端</a><a href="#account">账号店铺</a><a href="#fund">充值退款</a><a href="#operations">运营合规</a><a href="#robot">返利机器人</a></nav>
   <main class="knowledge-content" data-yz-editor-root>
-    <section><h2 id="movie">一、闲鱼电影票系统</h2><p>源文档覆盖报价模式、出票、退款、充值余额、账号授权、客户端安装和“超级擦亮”等常见问题。</p><p><a href="https://dvuwvdqc60.feishu.cn/wiki/IVkGw3sFBiIulVkuUQPcCLikn6f">打开飞书《闲鱼电影票系统 QA》</a></p></section>
-    <section><h2 id="robot">二、返利机器人教程指南</h2><p>用于查看返利机器人的完整搭建和使用教程。</p><p><a href="https://dvuwvdqc60.feishu.cn/wiki/O2RMwOTHWiVJWrkW6Cyca2cZn3d">打开飞书《返利机器人教程指南》</a></p></section>
-    <section><h2 id="maintain">三、维护规则</h2><ul class="knowledge-list"><li>本页只索引源文档，系统价格、授权和售后规则以各自最新文档为准。</li><li>后续需要进入全局搜索时，应分别提供这两个下级文档链接，再整理为独立知识页。</li><li>源文档需要飞书权限；无权限时由对应产品负责人申请，不在公开渠道转发内部资料。</li></ul></section>
+    <section>
+      <h2 id="overview">一、产品定位与处理入口</h2>
+      <p>闲鱼电影票系统用于协助店铺完成用户咨询、截图识别、自动报价、订单创建、出票和取票码发送。客服处理问题时，先在【订单管理】查看订单状态和失败原因，再区分渠道出票、报价配置、客户端在线和闲鱼账号状态。</p>
+      <div class="knowledge-callout warning"><strong>宣传边界</strong><p>不得承诺“躺赚”、固定折扣、固定利润、固定出票率或“保证学会”。源文档中的销售表述只作为历史话术线索，不进入现行承诺。</p></div>
+    </section>
+    <section>
+      <h2 id="quote">二、报价、识别与出票</h2>
+      <dl class="knowledge-definition"><dt>加价报价</dt><dd>在渠道预估出票价上增加固定金额，并可设置成交价上限；适合不熟悉不同院线价格的用户。</dd><dt>专业报价</dt><dd>可按省市、院线、影院、影厅、影片、座位和日期等因素配置，适合有票务经验和自有资源的用户。</dd><dt>截图识别错误</dt><dd>先确认座位与场次信息是否完整；可人工创建订单，或提交原图、识别结果和错误信息给客服。</dd><dt>出票失败</dt><dd>在【订单管理】查看失败原因，核对开场时间、渠道状态和价格上限；自动退款规则在后台设置中确认。</dd></dl>
+      <ul class="knowledge-list"><li>报价前确认影院、场次、座位和张数，一个订单的可识别座位数以当前系统限制为准。</li><li>手动出票时先向买家确认完整信息，报价并收款后再创建订单。</li><li>出票时效和进价折扣受影院、场次和渠道影响，不向用户承诺固定分钟数或固定折扣。</li></ul>
+    </section>
+    <section>
+      <h2 id="client">三、客户端在线与消息同步</h2>
+      <p>自动回复和订单处理依赖客户端持续在线。网络中断、电脑关机、服务器异常、关键词未命中或客服 ID 绑定错误，都可能导致消息不同步或不回复。</p>
+      <ol class="knowledge-list"><li>确认客户端正常运行且网络稳定。</li><li>核对客服 ID 与对应店铺绑定关系。</li><li>核对商品关键词和自动回复规则是否覆盖用户提问。</li><li>重新关联后重启客户端，再用非系统店铺账号做真实消息测试。</li></ol>
+      <div class="knowledge-callout warning"><strong>软件安全</strong><p>安装被系统拦截时，不指导用户关闭杀毒软件或删除安全中心。应先核验安装包来源和签名，使用官方最新版，并由技术排查兼容性。</p></div>
+    </section>
+    <section>
+      <h2 id="account">四、账号、店铺与授权</h2>
+      <ul class="knowledge-list"><li>同一后台可管理多个店铺，具体授权数量和席位费用以合同及后台为准。</li><li>源文档建议单台电脑同时运行不超过 3 个客户端；服务器可运行数量取决于 CPU、内存和实际负载。</li><li>授权时长可在同一后台账号下的店铺间转移，支持的最短时长和次数以当前产品功能为准。</li><li>频繁切换账号或登录环境可能触发闲鱼安全认证；不得尝试绕过平台验证。</li></ul>
+    </section>
+    <section>
+      <h2 id="fund">五、充值、收款与退款</h2>
+      <p>预充余额入口在系统【个人中心】→【余额充值】。充值后按页面要求及时回填交易单号；超过有效时间或未到账时转客服人工核对，群内不得公开支付账号、身份证、银行卡等信息。</p>
+      <ul class="knowledge-list"><li>停止推广需要退余额时，使用当期正式退款登记入口，到账时效以财务确认结果为准。</li><li>闲鱼订单款通常在买家确认收货后进入对应收款账户；自动确认时间以闲鱼平台规则为准。</li><li>系统余额、营销工具余额和供应渠道资金必须分开核对，不混用退款入口。</li></ul>
+    </section>
+    <section>
+      <h2 id="operations">六、运营活动与合规边界</h2>
+      <p>鱼小铺、超级擦亮、返点和“放心充”等均受闲鱼官方资格、代理商政策及账号状态影响。源文档包含旧的充值门槛、返点比例、税点、席位价格和开通条件，全部标记为待产品与财务确认。</p>
+      <div class="knowledge-callout warning"><strong>禁止不合规运营</strong><p>不得用虚假低价、不出票、诱导确认收货、规避平台风控或收集超出必要范围的个人信息来提高权重。账号申诉和授权必须按闲鱼官方流程操作。</p></div>
+      <p><a href="https://dvuwvdqc60.feishu.cn/wiki/IVkGw3sFBiIulVkuUQPcCLikn6f">打开飞书《闲鱼电影票系统 QA》源文档</a></p>
+    </section>
+    <section>
+      <h2 id="robot">七、返利机器人教程</h2>
+      <p>当前《返利机器人教程指南》节点仅有标题，没有可提取的教程正文，因此暂不编写未有来源支持的操作步骤。后续飞书文档补充内容后再导入。</p>
+      <p><a href="https://dvuwvdqc60.feishu.cn/wiki/O2RMwOTHWiVJWrkW6Cyca2cZn3d">打开飞书《返利机器人教程指南》源文档</a></p>
+    </section>
   </main>
   <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../platform/platform-tools-products-guide.html">查看平台工具与产品指南</a></footer>
   <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
