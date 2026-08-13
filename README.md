@@ -32,9 +32,10 @@
 
 - 知识库首页：`app/page.tsx`，公网路径 `/yunzhan/`；
 - 云瞻开放平台与业务体系介绍：`public/yunzhan.html`，公网路径 `/yunzhan/yunzhan.html`；
-- 云瞻开放平台 GEO 运营策略：`public/geo-strategy-dashboard.html`，公网路径 `/yunzhan/geo-strategy-dashboard.html`。
+- 云瞻开放平台 GEO 运营策略：`public/geo-strategy-dashboard.html`，公网路径 `/yunzhan/geo-strategy-dashboard.html`；
+- 本地生活核心业务规则与客服口径：`public/pages/rules/local-life-business-rules.html`，公网路径 `/yunzhan/pages/rules/local-life-business-rules.html`。
 
-后两份页面是现有成熟知识。没有明确需求时，不改写其正文、数据、图表或原有知识逻辑。
+平台介绍与 GEO 运营策略是现有成熟知识。没有明确需求时，不改写其正文、数据、图表或原有知识逻辑。
 
 ## 源码与部署仓库
 
@@ -158,6 +159,8 @@ npm run build:github-pages
 4. 将 `out/` 内容同步到公开仓库 `fd918/yunzhan` 的 `main` 根目录，同时保留 `.nojekyll`，并把本 README 同步为公开仓库 README；
 5. 推送公开仓库 `main` 后，GitHub Pages 自动发布到 <https://fd918.github.io/yunzhan/>；
 6. 发布完成后检查首页、Logo、CSS、JavaScript、`pagefind/pagefind.js` 和新增知识页均返回正常。
+
+用户已授权本项目默认执行上述完整发布流程。后续知识库改动在测试通过且确认不含敏感信息后，默认同步推送私有源码仓库与公开静态成品仓库，无需再次单独确认 GitHub 推送。
 
 注意：私有源码仓库当前套餐不支持直接启用 GitHub Pages，所以仅 push `fd918/simple-dashboard/main` 不会自动更新公网站点或线上搜索索引。`.github/workflows/deploy-pages.yml` 保留了同仓库 Pages 构建方案，但当前正式上线以 `fd918/yunzhan` 静态成品仓库为准。
 
