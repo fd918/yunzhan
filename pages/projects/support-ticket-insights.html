@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="从 2,967 个历史工单提炼问题分类、优先级结构、处理时效、超期治理和自动化改进方向。" />
+  <title>客服问题工单治理与改进看板｜云瞻开放平台内部知识库</title>
+  <script src="../../access-gate.js"></script>
+  <script src="../../knowledge-editor.js" defer></script>
+  <link rel="stylesheet" href="../../knowledge-page.css" />
+</head>
+<body data-pagefind-body>
+  <header>
+    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
+    <div class="knowledge-meta"><span class="knowledge-module">10 项目中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
+    <h1 data-yz-editor-root>客服问题工单治理与改进看板</h1>
+    <p class="knowledge-summary" data-yz-editor-root>从 2,967 个历史工单提炼问题分类、优先级结构、处理时效、超期治理和自动化改进方向。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容依据：</strong>飞书 4 个业务与客服群的全量消息分析（99,839 条去重消息），经脱敏、去重和主题归并<br /><strong>消息范围：</strong>2023-10-20—2026-08-13　<strong>更新时间：</strong>2026-08-13<br /><strong>使用边界：</strong>现行规则以负责人确认和最新正式通知为准；待复核、阶段活动和历史内容均已明确标记。</div>
+  </header>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#overview">数据总览</a>
+      <a href="#categories">问题分类</a>
+      <a href="#time">处理时效</a>
+      <a href="#priorities">优先级</a>
+      <a href="#actions">改进行动</a></nav>
+  <main class="knowledge-content" data-yz-editor-root>
+      <section><h2 id="overview">一、工单数据总览</h2><div class="knowledge-grid"><article class="knowledge-card"><span class="knowledge-status current">2,967</span><h3>独立工单</h3><p>从通知卡片的创建、处理、完成和重新打开消息中归并。</p></article><article class="knowledge-card"><span class="knowledge-status current">2,849</span><h3>推算完成</h3><p>最后状态为完成或 Done；“技术完成”未计入关闭，不等于全部已由用户验证。</p></article><article class="knowledge-card"><span class="knowledge-status pending">118</span><h3>推算未完成</h3><p>抓取时处于创建、处理、待办、技术完成或重新打开；需与实时系统核对。</p></article></div></section>
+      <section><h2 id="categories">二、高频问题分类</h2><div class="knowledge-table-wrap"><table class="knowledge-table"><thead><tr><th>类别</th><th>历史工单数</th><th>知识治理重点</th></tr></thead><tbody><tr><td>账号、登录与实名</td><td>766</td><td>权限、实名、收款账户、材料审批</td></tr><tr><td>小程序、页面与发布</td><td>728</td><td>模板、发布、审核、插件和并发操作</td></tr><tr><td>订单、数据与归因</td><td>532</td><td>状态、数据时效、归因和入账</td></tr><tr><td>提现、结算与分佣</td><td>407</td><td>金额核对、打款、防重和税务</td></tr><tr><td>霸王餐与返现</td><td>265</td><td>报名、资格、返现和提现</td></tr><tr><td>快递与寄件</td><td>255</td><td>物流、补差、赔付和发票</td></tr><tr><td>链接、密令与转链</td><td>188</td><td>有效性、批次、跟单和回收</td></tr><tr><td>电影票</td><td>108</td><td>下单、登录、取票、退票和强时效</td></tr></tbody></table></div><p class="knowledge-note">分类可重叠；“其他”历史占比较高，后续工单必须设置必选业务和问题分类。</p></section>
+      <section><h2 id="time">三、处理时效观察</h2><ul class="knowledge-list"><li>首次通知到完成通知的中位数约 24.9 小时；</li><li>90% 分位约 289 小时，约 12 天；</li><li>该统计包含节假日、等待用户、等待上游和重新打开，不能直接作为绩效 SLA；</li><li>建议落地 24 小时未更新提醒、72 小时升级、7 天周会复盘。</li></ul></section>
+      <section><h2 id="priorities">四、优先级结构问题</h2><p>历史“非常紧急”626 个、“紧急”1,647 个，两者约占 76.6%。当多数问题都被标记为紧急，优先级无法帮助资源调度。</p><div class="knowledge-callout warning"><strong>治理方向</strong><p>采用 P0—P3 明确定义；金额、批量影响、隐私合规、核心功能和强时效进入高优先级，普通体验与建议不再标记紧急。</p></div></section>
+      <section><h2 id="actions">五、改进行动</h2><ol class="knowledge-list"><li>统一工单必填字段和问题分类；</li><li>完成、技术完成、用户验证分开记录；</li><li>重新打开自动升级并关联原处理人；</li><li>自动识别金额、批量影响和隐私风险；</li><li>新工单推荐相似历史工单和知识页；</li><li>技术关闭时要求填写根因和验证方式；</li><li>每周输出新增、重复、超期和复发问题；</li><li>稳定解决方案经人工确认后进入问题处理中心。</li></ol></section></main>
+  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../../#modules">返回知识模块</a></footer>
+  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
+</body>
+</html>

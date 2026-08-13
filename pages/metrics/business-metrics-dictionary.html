@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="统一 CPS、CPA、GMV、父子订单、归因期、数据时效、佣金激励、技术服务费、预估与实结等高频概念。" />
+  <title>业务数据、订单、佣金与结算指标词典｜云瞻开放平台内部知识库</title>
+  <script src="../../access-gate.js"></script>
+  <script src="../../knowledge-editor.js" defer></script>
+  <link rel="stylesheet" href="../../knowledge-page.css" />
+</head>
+<body data-pagefind-body>
+  <header>
+    <a class="knowledge-brand" href="../../" data-pagefind-ignore><img src="../../yunzhan-logo.png" width="2749" height="789" alt="云瞻" /></a>
+    <div class="knowledge-meta"><span class="knowledge-module">04 数据指标中心</span><span>状态：已上线</span><time datetime="2026-08-13">最后更新：2026-08-13</time></div>
+    <h1 data-yz-editor-root>业务数据、订单、佣金与结算指标词典</h1>
+    <p class="knowledge-summary" data-yz-editor-root>统一 CPS、CPA、GMV、父子订单、归因期、数据时效、佣金激励、技术服务费、预估与实结等高频概念。</p>
+    <div class="knowledge-source" data-yz-editor-root><strong>内容依据：</strong>飞书 4 个业务与客服群的全量消息分析（99,839 条去重消息），经脱敏、去重和主题归并<br /><strong>消息范围：</strong>2023-10-20—2026-08-13　<strong>更新时间：</strong>2026-08-13<br /><strong>使用边界：</strong>现行规则以负责人确认和最新正式通知为准；待复核、阶段活动和历史内容均已明确标记。</div>
+  </header>
+  <nav class="knowledge-toc" aria-label="本页章节" data-pagefind-ignore><a href="#income">收益指标</a>
+      <a href="#orders">订单指标</a>
+      <a href="#time">时间口径</a>
+      <a href="#attribution">归因口径</a>
+      <a href="#states">状态边界</a></nav>
+  <main class="knowledge-content" data-yz-editor-root>
+      <section><h2 id="income">一、收益与金额指标</h2><dl class="knowledge-definition"><dt>CPS</dt><dd>按成交或佣金结果计算收益；必须区分官方佣金、技术服务费和用户实际到账。</dd><dt>CPA</dt><dd>按有效行为或有效订单计费；需注明有效标准、版本差异和结算时间。</dd><dt>GMV</dt><dd>成交总额，不等于可结算金额；退款、无佣、风控、自推自买等可能被剔除。</dd><dt>佣金</dt><dd>业务成交形成的基础收益。</dd><dt>激励</dt><dd>满足活动门槛后的额外收益，不能与基础佣金混为一谈。</dd><dt>技术服务费</dt><dd>应区分官方扣费、云瞻版本政策和提现成本，不能合并成一个比例解释。</dd><dt>预估/实结</dt><dd>预估是当前页面测算；实结以官方核销、退款和最终账单为准。</dd></dl></section>
+      <section><h2 id="orders">二、订单与计算对象</h2><dl class="knowledge-definition"><dt>父订单</dt><dd>一次交易的主订单，部分活动用来判断门槛或激励档位。</dd><dt>子订单</dt><dd>商品维度订单，接口和看板可能返回子订单，激励可能按全部子订单均分。</dd><dt>有效订单</dt><dd>满足具体业务的支付、金额、佣金、核销、完成、非退款和非风控等条件。</dd><dt>均单激励</dt><dd>大盘总激励金额除以参与均分的订单数；必须明确分母是父订单还是子订单。</dd></dl></section>
+      <section><h2 id="time">三、数据与结算时间</h2><div class="knowledge-table-wrap"><table class="knowledge-table"><thead><tr><th>口径</th><th>含义</th><th>注意</th></tr></thead><tbody><tr><td>实时</td><td>业务发生后较快返回</td><td>仍可能有延迟和最终核销</td></tr><tr><td>T+1</td><td>业务发生后的下一日返回</td><td>需明确自然日、工作日和展示日期</td></tr><tr><td>T+2</td><td>业务发生后的第二日返回</td><td>不等于最终结算</td></tr><tr><td>M+1</td><td>次月结算或发放</td><td>配具体月份示例</td></tr><tr><td>M+2</td><td>隔一个月后结算或发放</td><td>飞猪酒店当前激励采用该口径</td></tr></tbody></table></div></section>
+      <section><h2 id="attribution">四、归因相关</h2><dl class="knowledge-definition"><dt>归因期</dt><dd>点击或行为后可认定为某渠道订单的有效时间窗口。</dd><dt>末次点击</dt><dd>按用户最后一次有效推广点击确定渠道。</dd><dt>首单归因</dt><dd>一次点击只覆盖规定时间内第一笔订单，后续可能需要再次点击。</dd><dt>锁佣</dt><dd>用户在规定周期内持续归属某渠道，具体触发和刷新规则按业务确认。</dd><dt>推广位/PID</dt><dd>用于识别渠道和推广来源的标识；更换后必须通过订单工具验证归属。</dd></dl></section>
+      <section><h2 id="states">五、订单状态与入账边界</h2><ul class="knowledge-list"><li>待付款通常不构成有效订单；</li><li>付款后退款可能变为失效订单；</li><li>支付、核销、完成、结算和入账是不同节点；</li><li>订单状态更新不代表佣金已入账；</li><li>页面显示 0 元与完全不显示的内部经验需要技术确认，不能直接作为官方规则；</li><li>客服解释时必须同时说明业务状态和财务状态。</li></ul></section></main>
+  <footer class="knowledge-footer" data-pagefind-ignore><a href="../../">返回知识库首页</a><a href="../../#modules">返回知识模块</a></footer>
+  <a class="knowledge-back-top" href="#top" aria-label="返回页面顶部" data-pagefind-ignore>返回顶部</a>
+</body>
+</html>

@@ -128,6 +128,7 @@ h1 { margin: 10px 0 8px; color: var(--knowledge-primary); font-size: clamp(30px,
 .knowledge-callout.success strong { color: var(--knowledge-success); }
 .knowledge-list { margin: 10px 0 0; padding-left: 1.25em; }
 .knowledge-list li + li { margin-top: 7px; }
+.knowledge-list .knowledge-status { margin: 0 5px 0 0; vertical-align: middle; }
 .knowledge-definition {
   display: grid;
   grid-template-columns: minmax(132px, 180px) minmax(0, 1fr);
