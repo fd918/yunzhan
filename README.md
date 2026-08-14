@@ -190,13 +190,13 @@ npm run search:index
 
 1. 在私有源码仓库完成修改并运行 `npm test`、`npm run lint`；
 2. 将源码修改提交到 `fd918/simple-dashboard`；
-3. 使用公网仓库路径构建静态成品：
+3. 使用公网仓库路径构建静态成品；命令会默认写入 `/yunzhan` 子路径和正式公网地址：
 
 ```bash
-NEXT_PUBLIC_BASE_PATH="/yunzhan" \
-NEXT_PUBLIC_SITE_URL="https://fd918.github.io/yunzhan" \
 npm run build:github-pages
 ```
+
+如需发布到其他仓库路径，才需要临时提供 `NEXT_PUBLIC_BASE_PATH` 和 `NEXT_PUBLIC_SITE_URL` 覆盖默认值。构建完成后必须确认 `out/index.html` 中的 CSS、JavaScript、Logo 和访问脚本均以 `/yunzhan/` 开头。
 
 4. 将 `out/` 内容同步到公开仓库 `fd918/yunzhan` 的 `main` 根目录，同时保留 `.nojekyll`，并把本 README 同步为公开仓库 README；
 5. 推送公开仓库 `main` 后，GitHub Pages 自动发布到 <https://fd918.github.io/yunzhan/>；
