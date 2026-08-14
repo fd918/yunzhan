@@ -2,6 +2,7 @@
   "use strict";
 
   const EDITOR_ID = "yz-knowledge-editor";
+  const IMAGE_PREVIEW_ID = "yz-image-preview";
   const STORAGE_PREFIX = "yunzhan-knowledge-draft-v1:";
   const EXCLUDED_SELECTOR = [
     "[data-pagefind-ignore]",
@@ -19,6 +20,84 @@
   let dirty = false;
   let savedRange = null;
   let roots = [];
+
+  function mountImagePreview() {
+    const imageLinks = Array.from(document.querySelectorAll(".knowledge-figure > a"));
+    if (imageLinks.length === 0 || document.getElementById(IMAGE_PREVIEW_ID)) return;
+
+    const preview = document.createElement("div");
+    preview.id = IMAGE_PREVIEW_ID;
+    preview.className = "knowledge-image-preview";
+    preview.setAttribute("role", "dialog");
+    preview.setAttribute("aria-modal", "true");
+    preview.setAttribute("aria-label", "图片预览");
+    preview.setAttribute("aria-hidden", "true");
+    preview.hidden = true;
+    preview.innerHTML = `
+      <button class="knowledge-image-preview__backdrop" type="button" aria-label="关闭图片预览"></button>
+      <div class="knowledge-image-preview__panel">
+        <button class="knowledge-image-preview__close" type="button" aria-label="关闭图片预览">
+          <span aria-hidden="true">×</span>
+        </button>
+        <img class="knowledge-image-preview__image" alt="" />
+        <p class="knowledge-image-preview__caption"></p>
+      </div>
+    `;
+    document.body.append(preview);
+
+    const previewImage = preview.querySelector(".knowledge-image-preview__image");
+    const previewCaption = preview.querySelector(".knowledge-image-preview__caption");
+    const closeButton = preview.querySelector(".knowledge-image-preview__close");
+    const backdrop = preview.querySelector(".knowledge-image-preview__backdrop");
+    let activeTrigger = null;
+
+    const closePreview = () => {
+      if (preview.hidden) return;
+      preview.classList.remove("is-open");
+      preview.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("knowledge-image-preview-open");
+      window.setTimeout(() => {
+        preview.hidden = true;
+        previewImage.removeAttribute("src");
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 160);
+      activeTrigger?.focus({ preventScroll: true });
+      activeTrigger = null;
+    };
+
+    const openPreview = (link) => {
+      const sourceImage = link.querySelector("img");
+      const caption = link.closest(".knowledge-figure")?.querySelector("figcaption");
+      activeTrigger = link;
+      previewImage.src = link.href;
+      previewImage.alt = sourceImage?.alt || "知识配图大图";
+      previewCaption.textContent = caption?.textContent?.trim() || previewImage.alt;
+      preview.hidden = false;
+      preview.setAttribute("aria-hidden", "false");
+      document.documentElement.classList.add("knowledge-image-preview-open");
+      window.requestAnimationFrame(() => preview.classList.add("is-open"));
+      closeButton.focus({ preventScroll: true });
+    };
+
+    imageLinks.forEach((link) => {
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.setAttribute("aria-label", `${link.querySelector("img")?.alt || "知识配图"}，点击在当前页面查看大图`);
+      link.addEventListener("click", (event) => {
+        if (editing) return;
+        event.preventDefault();
+        openPreview(link);
+      });
+    });
+
+    closeButton.addEventListener("click", closePreview);
+    backdrop.addEventListener("click", closePreview);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !preview.hidden) {
+        event.preventDefault();
+        closePreview();
+      }
+    });
+  }
 
   function storageKey() {
     return `${STORAGE_PREFIX}${window.location.pathname}`;
@@ -320,6 +399,7 @@
   }
 
   function startEditor() {
+    mountImagePreview();
     if (document.getElementById(EDITOR_ID)) return;
     roots = resolveEditableRoots();
     if (roots.length === 0) return;

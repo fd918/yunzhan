@@ -184,6 +184,21 @@ npm run search:index
 
 因此不需要手工编辑或提交 Pagefind 文件。新增知识后，必须先重新构建，再把新的静态成品推送到公开部署仓库；公开仓库 `main` push 后，GitHub Pages 会发布已经包含新 Pagefind 索引的成品。
 
+## 每周飞书群聊增量更新
+
+每周一 09:00（北京时间）自动处理上一周周一 00:00 至周日 23:59:59 的群聊消息。默认动态读取“信息整理小助手”当前所在的全部群；如需固定范围，可在本机 `.env` 的 `FEISHU_WEEKLY_CHAT_IDS` 中填写群 ID 白名单。
+
+自动流程包括：按群抓取消息和话题、去重、提炼规则与 SOP、识别变更和冲突、敏感信息扫描、更新生成源与知识页、重建搜索、运行测试、推送私有源码和公开静态成品、验证公网地址。金额、费率、日期、活动门槛等动态口径若没有清晰的正式确认，只能以“待复核”状态上架，不能自动替换现行规则。
+
+抓取结果仅写入被 Git 忽略的 `work/feishu-weekly/`，原始群聊不会进入公开仓库。成功发布后，脚本通过 `FEISHU_NOTIFY_CHAT_ID` 发送飞书通知；未单独配置时沿用 `FEISHU_TARGET_CHAT_ID`。通知包含统计周期、覆盖群数、消息数、知识变更摘要和公网地址。
+
+本机配置集中保存在 `.env`，字段示例见 `.env.example`。真实 App Secret、群 ID 和其他认证信息不得提交到 Git、公开文档或截图。手工验证命令：
+
+```bash
+cd "/Users/tanwenjie/Documents/看板项目"
+npm run feishu:weekly:capture
+```
+
 ## GitHub Pages 发布
 
 当前实际发布流程如下：
@@ -226,6 +241,7 @@ npm run dev
 - `public/dashboard-navigation.css` 是现有看板统一章节导航样式；
 - `public/access-gate.js` 是当前临时访问门槛，所有新增 HTML 知识页都必须保留对它的引用；
 - `public/knowledge-editor.js` 是统一网页编辑工具，负责直接改字、加粗、标色、本机草稿和修改稿导出；
+- `scripts/feishu-weekly-capture.mjs` 负责每周时间窗抓取、动态群列表和成功通知，认证信息只从本机 `.env` 读取；
 - 群聊提炼内容的生成源是 `scripts/generate-group-knowledge-pages.mjs`，修改生成页正文后必须重新生成并验证；
 - 新人学习入口仍为建设中，只展示规划内容，不创建无正文的空页面；
 - 未明确提出前，不新增数据库、后端、登录、AI 问答或复杂发布架构。
